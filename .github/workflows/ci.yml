@@ -23,6 +23,7 @@ jobs:
 
       - name: Install dependencies (Yarn)
         run: |
+          yarn --version || corepack enable
           yarn install --frozen-lockfile
 
       - name: Run Biome

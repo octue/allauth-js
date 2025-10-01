@@ -23,7 +23,9 @@ jobs:
           registry-url: "https://registry.npmjs.org"
 
       - name: Install dependencies (Yarn)
-        run: yarn install --frozen-lockfile
+        run: |
+          yarn --version || corepack enable
+          yarn install --frozen-lockfile
 
       - name: Set version from tag
         run: |

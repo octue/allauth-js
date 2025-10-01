@@ -1,28 +1,103 @@
 {
-  "$schema": "https://biomejs.dev/schemas/1.9.4/schema.json",
+  "$schema": "https://biomejs.dev/schemas/2.2.2/schema.json",
+  "vcs": { "enabled": false, "clientKind": "git", "useIgnoreFile": true },
+  "files": {
+    "ignoreUnknown": false,
+    "includes": [
+      "**",
+      "!**/.next",
+      "!**/.vscode",
+      "!**/.yarn",
+      "!**/node_modules",
+      "!**/public"
+    ]
+  },
   "formatter": {
     "enabled": true,
+    "useEditorconfig": true,
+    "formatWithErrors": true,
     "indentStyle": "space",
     "indentWidth": 2,
-    "lineWidth": 100
+    "lineEnding": "lf",
+    "lineWidth": 80,
+    "attributePosition": "auto",
+    "bracketSpacing": true
   },
-  "organizeImports": {
-    "enabled": true
+  "assist": {
+    "actions": {
+      "source": {
+        "organizeImports": {
+          "level": "on",
+          "options": {
+            "groups": [
+              {
+                "source": ["react"]
+              },
+              ":BLANK_LINE:",
+              {
+                "source": [
+                  "**",
+                  "!./**",
+                  "!../**",
+                  "!assets/**",
+                  "!components/**",
+                  "!constants",
+                  "!constants/**",
+                  "!containers/**",
+                  "!hooks/**",
+                  "!lib/**",
+                  "!pages/**",
+                  "!types/**",
+                  "!types",
+                  "!utils/**",
+                  "!errors"
+                ]
+              },
+              ":BLANK_LINE:",
+              {
+                "source": ["components/**"]
+              },
+              ":BLANK_LINE:",
+              {
+                "type": false
+              }
+            ]
+          }
+        }
+      }
+    }
   },
   "linter": {
     "enabled": true,
     "rules": {
-      "recommended": true
+      "recommended": true,
+      "style": { "useBlockStatements": "off" },
+      "a11y": {
+        "noStaticElementInteractions": "off",
+        "useKeyWithClickEvents": "off"
+      },
+      "correctness": { "useUniqueElementIds": "off" },
+      "suspicious": { "noTsIgnore": "off" }
     }
   },
   "javascript": {
     "formatter": {
-      "quoteStyle": "double",
-  "trailingCommas": "all"
-    }
+      "jsxQuoteStyle": "double",
+      "quoteProperties": "asNeeded",
+      "trailingCommas": "es5",
+      "semicolons": "asNeeded",
+      "arrowParentheses": "always",
+      "bracketSameLine": false,
+      "quoteStyle": "single",
+      "attributePosition": "auto",
+      "bracketSpacing": true
+    },
+    "globals": ["require", "document", "window", "navigator"]
   },
-  "files": {
-    "include": ["src", "allauth", "vite.config.ts", "tsconfig*.json", "package.json"],
-    "ignore": ["dist", "node_modules", ".yarn"]
-  }
+  "overrides": [
+    {
+      "includes": ["src/**/*.stories.*"],
+      "linter": { "rules": {} }
+    }
+  ]
 }

@@ -1,8 +1,9 @@
 {
   "name": "allauth-js",
-  "version": "0.0.0",
-  "description": "Allauth JS library (TypeScript, Vite library mode)",
+  "version": "0.0.0-semantically-released",
+  "description": "Allauth JS - using django allauth in headless mode for SPA frontends",
   "license": "GPL-3.0-only",
+  "author": "Octue Ltd",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/octue/allauth-js.git"
@@ -40,7 +41,7 @@
     "react-dom": ">=18.0.0"
   },
   "devDependencies": {
-    "@biomejs/biome": "^1.9.4",
+    "@biomejs/biome": "^2.2.2",
     "@types/node": "^22.7.5",
     "@types/react": "^18.3.5",
     "@types/react-dom": "^18.3.0",
@@ -64,5 +65,75 @@
     "vite",
     "library"
   ],
+  "release": {
+    "branches": [
+      "main"
+    ],
+    "tagFormat": "v${version}",
+    "plugins": [
+      [
+        "@semantic-release/commit-analyzer",
+        {
+          "preset": "angular",
+          "releaseRules": [
+            {
+              "type": "FEA",
+              "release": "minor"
+            },
+            {
+              "type": "ENH",
+              "release": "patch"
+            },
+            {
+              "type": "FIX",
+              "release": "patch"
+            },
+            {
+              "type": "OPS",
+              "release": "patch"
+            },
+            {
+              "type": "DEP",
+              "release": "patch"
+            },
+            {
+              "type": "REF",
+              "release": "patch"
+            },
+            {
+              "type": "TST",
+              "release": "patch"
+            },
+            {
+              "type": "MRG",
+              "release": "patch"
+            },
+            {
+              "type": "REV",
+              "release": "patch"
+            },
+            {
+              "type": "CHO",
+              "release": "patch"
+            },
+            {
+              "type": "WIP",
+              "release": "patch"
+            },
+            {
+              "type": "DOC",
+              "release": "patch"
+            },
+            {
+              "type": "STY",
+              "release": "patch"
+            }
+          ]
+        }
+      ],
+      "@semantic-release/release-notes-generator",
+      "@semantic-release/github"
+    ]
+  },
   "packageManager": "yarn@4.5.3+sha512.3003a14012e2987072d244c720506549c1aab73ee728208f1b2580a9fd67b92d61ba6b08fe93f6dce68fd771e3af1e59a0afa28dd242dd0940d73b95fedd4e90"
 }

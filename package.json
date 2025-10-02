@@ -1,5 +1,5 @@
 {
-  "name": "allauth-js",
+  "name": "@octue/allauth-js",
   "version": "0.0.0-semantically-released",
   "description": "Allauth JS - using django allauth in headless mode for SPA frontends",
   "license": "GPL-3.0-only",

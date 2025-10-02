@@ -2,7 +2,7 @@ import type React from "react"
 import type { ReactNode } from "react"
 import { useEffect } from "react"
 
-import LoadingOverlay from "@components/primitives/LoadingOverlay"
+// import LoadingOverlay from "@components/primitives/LoadingOverlay"
 import { useRouter } from "next/router"
 import type { NextRouter } from "next/router"
 
@@ -59,7 +59,7 @@ export function getNext(router: NextRouter, defaultNext: string): string {
  */
 export function AuthenticatedRoute({
   children,
-  loading = <LoadingOverlay loading />
+  loading = null //<LoadingOverlay loading />
 }: {
   children: React.ReactNode
   loading?: React.ReactNode

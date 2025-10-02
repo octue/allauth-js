@@ -2,23 +2,18 @@ name: Release
 
 on:
   push:
-    branches:
-      - main
+    branches: [main]
 
 permissions:
-  contents: read # for checkout
+  contents: write # Publish GitHub release
+  issues: write # Comment on released issues
+  pull-requests: write # Comment on released PRs
+  id-token: write # OIDC (npm provenance if you later publish to npm)
 
 jobs:
   release:
     name: Release
-
     runs-on: ubuntu-latest
-
-    permissions:
-      contents: write # to be able to publish a GitHub release
-      issues: write # to be able to comment on released issues
-      pull-requests: write # to be able to comment on released pull requests
-      id-token: write # to enable use of OIDC for npm provenance
 
     steps:
       - name: Checkout
@@ -29,27 +24,23 @@ jobs:
       - name: Enable Corepack
         run: corepack enable
 
-      - name: Setup Node.js
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 9
+          run_install: false
+
+      - name: Setup Node.js (with pnpm cache)
         uses: actions/setup-node@v4
         with:
           node-version: "lts/*"
-          cache: "yarn"
+          cache: "pnpm"
+          cache-dependency-path: "pnpm-lock.yaml"
 
-      - name: Setup dependency cache
-        uses: actions/cache@v4
-        with:
-          path: node_modules
-          key: node-modules-${{ hashFiles('yarn.lock') }}
-          # restore-keys acts as a fallback to restore from any cache
-          # that starts with node-modules- if an exact match isn’t found.
-          restore-keys: |
-            node-modules-
-
-      - name: Install dependencies
-        run: |
-          yarn install --immutable
+      - name: Install dependencies (lockfile strict)
+        run: pnpm install --frozen-lockfile
 
       - name: Semantic release
+        run: pnpm dlx semantic-release
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # This token is provided by Actions, you do not need to create your own token
-        run: npx semantic-release
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

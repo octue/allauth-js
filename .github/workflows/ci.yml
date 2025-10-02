@@ -12,19 +12,29 @@ permissions:
 jobs:
   lint:
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Setup Node.js
+      - name: Enable Corepack
+        run: corepack enable
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 9
+          run_install: false
+
+      - name: Setup Node.js (with pnpm cache)
         uses: actions/setup-node@v4
         with:
-          node-version: "20"
+          node-version: "lts/*"
+          cache: "pnpm"
+          cache-dependency-path: "pnpm-lock.yaml"
 
-      - name: Install dependencies (Yarn)
-        run: |
-          yarn --version || corepack enable
-          yarn install --frozen-lockfile
+      - name: Install dependencies (lockfile strict)
+        run: pnpm install --frozen-lockfile
 
       - name: Run Biome
-        run: yarn lint
+        run: pnpm lint

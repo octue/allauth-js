@@ -6,43 +6,49 @@ on:
       - "v*.*.*"
 
 permissions:
-  contents: read
-  id-token: write
+  contents: read # Checkout code
+  id-token: write # OIDC (npm provenance if you later publish to npm)
 
 jobs:
   build-and-publish:
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Setup Node.js
+      - name: Enable Corepack
+        run: corepack enable
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 9
+          run_install: false
+
+      - name: Setup Node.js (with pnpm cache + npm registry)
         uses: actions/setup-node@v4
         with:
-          node-version: "20"
+          node-version: "lts/*"
+          cache: "pnpm"
+          cache-dependency-path: "pnpm-lock.yaml"
           registry-url: "https://registry.npmjs.org"
 
-      - name: Install dependencies (Yarn)
-        run: |
-          yarn --version || corepack enable
-          yarn install --frozen-lockfile
+      - name: Install dependencies (lockfile strict)
+        run: pnpm install --frozen-lockfile
 
       - name: Set version from tag
+        shell: bash
         run: |
           TAG="${GITHUB_REF_NAME}"
-          VERSION=${TAG#v}
+          VERSION="${TAG#v}"
           echo "Setting package.json version to ${VERSION}"
-          yarn version --no-git-tag-version --new-version "${VERSION}"
+          pnpm version --no-git-tag-version "${VERSION}"
 
       - name: Build
-        run: yarn build
+        run: pnpm build
 
-      - name: Configure npm auth for Yarn
+      - name: Publish to npm
+        run: pnpm publish --access public --no-git-checks
         env:
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-        run: |
-          echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" > ~/.npmrc
-          yarn config set registry "https://registry.npmjs.org"
-
-      - name: Publish
-        run: yarn publish --access public --non-interactive
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}

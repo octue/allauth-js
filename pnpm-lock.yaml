@@ -14,6 +14,9 @@ dependencies:
   react-dom:
     specifier: '>=18.0.0'
     version: 19.2.0(react@19.2.0)
+  react-hook-form:
+    specifier: ^7.63.0
+    version: 7.63.0(react@19.2.0)
 
 devDependencies:
   '@biomejs/biome':
@@ -32,14 +35,14 @@ devDependencies:
     specifier: ^6.0.1
     version: 6.0.1
   typescript:
-    specifier: ^5.6.3
-    version: 5.9.3
+    specifier: 5.8.2
+    version: 5.8.2
   vite:
     specifier: ^5.4.8
     version: 5.4.20(@types/node@22.18.8)
   vite-plugin-dts:
-    specifier: ^4.2.3
-    version: 4.5.4(@types/node@22.18.8)(typescript@5.9.3)(vite@5.4.20)
+    specifier: ^4.5.4
+    version: 4.5.4(@types/node@22.18.8)(typescript@5.8.2)(vite@5.4.20)
 
 packages:
 
@@ -1067,7 +1070,7 @@ packages:
       he: 1.2.0
     dev: true
 
-  /@vue/language-core@2.2.0(typescript@5.9.3):
+  /@vue/language-core@2.2.0(typescript@5.8.2):
     resolution: {integrity: sha512-O1ZZFaaBGkKbsRfnVH1ifOK1/1BUkyK+3SQsfnh6PmMmD4qJcTU8godCeA96jjDRTL6zgnK7YzCHfaUlH2r0Mw==}
     peerDependencies:
       typescript: '*'
@@ -1083,7 +1086,7 @@ packages:
       minimatch: 9.0.5
       muggle-string: 0.4.1
       path-browserify: 1.0.1
-      typescript: 5.9.3
+      typescript: 5.8.2
     dev: true
 
   /@vue/shared@3.5.22:
@@ -1620,6 +1623,15 @@ packages:
       scheduler: 0.27.0
     dev: false
 
+  /react-hook-form@7.63.0(react@19.2.0):
+    resolution: {integrity: sha512-ZwueDMvUeucovM2VjkCf7zIHcs1aAlDimZu2Hvel5C5907gUzMpm4xCrQXtRzCvsBqFjonB4m3x4LzCFI1ZKWA==}
+    engines: {node: '>=18.0.0'}
+    peerDependencies:
+      react: ^16.8.0 || ^17 || ^18 || ^19
+    dependencies:
+      react: 19.2.0
+    dev: false
+
   /react@19.2.0:
     resolution: {integrity: sha512-tmbWg6W31tQLeB5cdIBOicJDJRR2KzXsV7uSK9iNfLWQ5bIZfxuPEHp7M8wiHyHnn0DD1i7w3Zmin0FtkrwoCQ==}
     engines: {node: '>=0.10.0'}
@@ -1846,12 +1858,6 @@ packages:
     hasBin: true
     dev: true
 
-  /typescript@5.9.3:
-    resolution: {integrity: sha512-jl1vZzPDinLr9eUt3J/t7V6FgNEw9QjvBPdysz9KfQDD41fQrC2Y4vKQdiaUpFT4bXlb1RHhLpp8wtm6M5TgSw==}
-    engines: {node: '>=14.17'}
-    hasBin: true
-    dev: true
-
   /ufo@1.6.1:
     resolution: {integrity: sha512-9a4/uxlTWJ4+a5i0ooc1rU7C7YOw3wT+UGqdeNNHWnOF9qcMBgLRS+4IYUqbczewFx4mLEig6gawh7X6mFlEkA==}
     dev: true
@@ -1871,7 +1877,7 @@ packages:
       punycode: 2.3.1
     dev: true
 
-  /vite-plugin-dts@4.5.4(@types/node@22.18.8)(typescript@5.9.3)(vite@5.4.20):
+  /vite-plugin-dts@4.5.4(@types/node@22.18.8)(typescript@5.8.2)(vite@5.4.20):
     resolution: {integrity: sha512-d4sOM8M/8z7vRXHHq/ebbblfaxENjogAAekcfcDCCwAyvGqnPrc7f4NZbvItS+g4WTgerW0xDwSz5qz11JT3vg==}
     peerDependencies:
       typescript: '*'
@@ -1883,13 +1889,13 @@ packages:
       '@microsoft/api-extractor': 7.52.15(@types/node@22.18.8)
       '@rollup/pluginutils': 5.3.0
       '@volar/typescript': 2.4.23
-      '@vue/language-core': 2.2.0(typescript@5.9.3)
+      '@vue/language-core': 2.2.0(typescript@5.8.2)
       compare-versions: 6.1.1
       debug: 4.4.3
       kolorist: 1.8.0
       local-pkg: 1.1.2
       magic-string: 0.30.19
-      typescript: 5.9.3
+      typescript: 5.8.2
       vite: 5.4.20(@types/node@22.18.8)
     transitivePeerDependencies:
       - '@types/node'

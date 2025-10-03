@@ -1,1 +1,1 @@
-export * from "./allauth";
+export * as core from './core'

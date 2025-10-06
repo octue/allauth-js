@@ -1,14 +1,12 @@
-import type React from 'react'
 import type { ReactNode } from 'react'
-import { useEffect } from 'react'
 
 import type { NextRouter } from 'next/router'
-// import LoadingOverlay from "@components/primitives/LoadingOverlay"
 import { useRouter } from 'next/router'
 
-import { flow2path } from '../core/allauth'
-import { AuthChangeEvent, useAuthChange, useAuthStatus } from './hooks'
-import type { AuthResponse } from '../core/allauth'
+import { AUTH_CHANGE_KIND } from '../core/constants'
+import { flow2path } from '../core/urls'
+import { useAuthChange, useAuthStatus } from '../react/hooks'
+import type { AuthResponse, Flow } from '../core'
 
 export const URLs = Object.freeze({
   LOGIN_URL: '/account/login',
@@ -25,7 +23,7 @@ export function pathForFlow(flowId: string): string {
 }
 
 export function pathForPendingFlow(auth: AuthResponse): string | null {
-  const flow = auth.data?.flows?.find((flow) => flow.is_pending)
+  const flow = auth.data?.flows?.find((flow: Flow) => flow.is_pending)
   if (flow) {
     return pathForFlow(flow.id)
   }
@@ -50,9 +48,9 @@ export function AuthenticatedRoute({
   children,
   loading = null, //<LoadingOverlay loading />
 }: {
-  children: React.ReactNode
-  loading?: React.ReactNode
-}): React.ReactNode {
+  children: ReactNode
+  loading?: ReactNode
+}): ReactNode {
   const router = useRouter()
   const status = useAuthStatus()
   const next = `next=${encodeURIComponent(router.asPath)}`
@@ -71,8 +69,8 @@ export function AuthenticatedRoute({
 export function AnonymousRoute({
   children,
 }: {
-  children: React.ReactNode
-}): React.ReactNode {
+  children: ReactNode
+}): ReactNode {
   const status = useAuthStatus()
   const router = useRouter()
   if (!status.isAuthenticated) {
@@ -85,25 +83,25 @@ export function AnonymousRoute({
 export function AuthChangeRedirector({
   children,
 }: {
-  children: React.ReactNode
-}): React.ReactNode {
+  children: ReactNode
+}): ReactNode {
   const [auth, event] = useAuthChange()
   const router = useRouter()
 
   switch (event) {
-    case AuthChangeEvent.LOGGED_OUT: {
+    case AUTH_CHANGE_KIND.LOGGED_OUT: {
       router.push(URLs.LOGOUT_REDIRECT_URL)
       return null
     }
-    case AuthChangeEvent.LOGGED_IN: {
+    case AUTH_CHANGE_KIND.LOGGED_IN: {
       router.push(getNext(router, URLs.LOGIN_REDIRECT_URL))
       return null
     }
-    case AuthChangeEvent.REAUTHENTICATED: {
+    case AUTH_CHANGE_KIND.REAUTHENTICATED: {
       router.push(getNext(router, URLs.LOGIN_REDIRECT_URL))
       return null
     }
-    case AuthChangeEvent.REAUTHENTICATION_REQUIRED: {
+    case AUTH_CHANGE_KIND.REAUTHENTICATION_REQUIRED: {
       const next = `next=${encodeURIComponent(router.asPath)}`
       if (auth?.data?.flows) {
         const path = pathForFlow(auth.data.flows[0].id)
@@ -113,7 +111,7 @@ export function AuthChangeRedirector({
       }
       break
     }
-    case AuthChangeEvent.FLOW_UPDATED: {
+    case AUTH_CHANGE_KIND.FLOW_UPDATED: {
       if (auth) {
         const path = pathForPendingFlow(auth)
         if (path) {

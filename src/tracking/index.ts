@@ -138,7 +138,7 @@ export type SignupTrackProps =
 
 // ==== Formatter ====
 const trunc = (s: string, n = 240) => (s.length > n ? s.slice(0, n) + '…' : s)
-const uniq = <T,>(xs: T[]) => Array.from(new Set(xs))
+const uniq = <T>(xs: T[]) => Array.from(new Set(xs))
 
 function hasVerifyEmailFlow(res: SignupAuthNeeded): boolean {
   return res.data.flows.some((f) => f.id === 'verify_email')
@@ -260,8 +260,10 @@ export function summarizeSignup(res: SignupResponse): {
 
     default:
       return {
+        //@ts-ignore
         props: { status: res.status, outcome: 'unknown_exception' },
         event: 'Signup failed',
+        //@ts-ignore
         summary: `${res.status} Unknown Exception`,
       }
   }

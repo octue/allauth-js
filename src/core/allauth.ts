@@ -319,6 +319,7 @@ export function determineAuthChangeKind(
     if (fromInfo.requiresReauthentication) {
       return AUTH_CHANGE_KIND.REAUTHENTICATED
     }
+    //@ts-ignore
     if (fromAuth.data.methods.length < toAuth.data.methods.length) {
       // If you do a page reload when on the reauthentication page, both fromAuth
       // and toAuth are authenticated, and it won't see the change without this.

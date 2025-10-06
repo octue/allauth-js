@@ -1,6 +1,6 @@
 import { useState } from 'react'
 
-import { Button } from '../core/Button'
+import { Button } from '../common/Button'
 import { BadgeCheck } from '../icons/BadgeCheck'
 import { ExclamationTriangle } from '../icons/ExclamationTriangle'
 
@@ -26,11 +26,10 @@ export const EmailsTable = ({
   makePrimary,
   verify,
   remove,
-  add,
   disabled,
 }: EmailsTableProps) => {
   // TODO Add emails via a form in a modal component!
-  const [open, setOpen] = useState(false)
+  const [_open, setOpen] = useState(false)
 
   return (
     <div className={`px-4 sm:px-6 lg:px-8 ${className}`}>

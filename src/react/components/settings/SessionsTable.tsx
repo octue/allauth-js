@@ -1,4 +1,4 @@
-import { Button } from '../core/Button'
+import { Button } from '../common/Button'
 import { BadgeCheck } from '../icons/BadgeCheck'
 
 export interface Session {

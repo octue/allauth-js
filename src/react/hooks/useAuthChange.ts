@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 
-import { determineAuthChangeKind } from '../allauth'
+import { determineAuthChangeKind } from '../../core'
 import { useAuth } from './useAuth'
 import { useConfig } from './useConfig'
 
@@ -14,6 +14,7 @@ export const useAuthChange = () => {
       ref.current.didChange = true
       const event = determineAuthChangeKind(ref.current.prevAuth, auth, config)
       if (event) {
+        //@ts-ignore
         ref.current.event = event
         setForcedUpdate((gen) => gen + 1)
       }

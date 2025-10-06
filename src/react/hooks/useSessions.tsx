@@ -1,9 +1,7 @@
 import { useEffect, useState } from 'react'
 
+import { endSessions, getSessions, type Session } from '../../core'
 import { useConfig } from './useConfig'
-
-import { endSessions, getSessions } from '../allauth'
-import type { Session } from '../allauth'
 
 export const useSessions = () => {
   const config = useConfig()

@@ -1,4 +1,4 @@
-import { Button } from '../core/Button'
+import { Button } from '../common/Button'
 
 export const ChangePassword = () => {
   return (

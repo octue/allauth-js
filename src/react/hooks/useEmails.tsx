@@ -6,8 +6,8 @@ import {
   getEmailAddresses,
   markEmailAsPrimary,
   requestEmailVerification,
-} from '../allauth'
-import type { EmailAddress } from '../allauth'
+} from '../../core'
+import type { EmailAddress } from '../../core'
 
 export const useEmails = () => {
   const [emails, setEmails] = useState<EmailAddress[]>([])

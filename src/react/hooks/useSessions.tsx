@@ -36,11 +36,15 @@ export const useSessions = () => {
       .then(() => setLoading(false))
   }
 
+  const trackActivity =
+    (config?.data?.usersessions as { track_activity?: boolean } | undefined)
+      ?.track_activity ?? false
+
   return {
     currentSession,
     otherSessions,
     endSessions: _endSessions,
-    trackActivity: config.data.usersessions.track_activity,
+    trackActivity,
     loading,
   }
 }

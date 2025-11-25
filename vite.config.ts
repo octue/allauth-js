@@ -1,38 +1,50 @@
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 import react from '@vitejs/plugin-react'
+import tailwindcss from 'tailwindcss'
+import autoprefixer from 'autoprefixer'
 import { defineConfig } from 'vite'
 import dts from 'vite-plugin-dts'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 
 export default defineConfig({
+  css: {
+    postcss: {
+      plugins: [tailwindcss, autoprefixer],
+    },
+  },
   build: {
     lib: {
-      // lib mode still wants an entry; keep a small index (can be empty or re-exports)
-      entry: { index: 'src/index.ts' },
+      // Build multiple entry points so consumers can import subpaths like
+      // `@octue/allauth-js/react` or `@octue/allauth-js/nextjs` for better tree-shaking.
+      entry: {
+        index: path.resolve(__dirname, 'src/index.ts'),
+        'react/index': path.resolve(__dirname, 'src/react/index.ts'),
+        'nextjs/index': path.resolve(__dirname, 'src/nextjs/index.ts'),
+        'core/index': path.resolve(__dirname, 'src/core/index.ts'),
+        'tracking/index': path.resolve(__dirname, 'src/tracking/index.ts'),
+        'styles/index': path.resolve(__dirname, 'src/styles/index.ts'),
+      },
       formats: ['es', 'cjs'],
       fileName: (format, entryName) =>
         `${entryName}.${format === 'es' ? 'mjs' : 'cjs'}`,
     },
-    // Build multiple entry points so consumers can import subpaths like
-    // `@octue/allauth-js/react` or `@octue/allauth-js/nextjs` for better tree-shaking.
-    // entry: {
-    //   index: path.resolve(__dirname, 'src/index.ts'),
-    //   react: path.resolve(__dirname, 'src/react/index.ts'),
-    //   nextjs: path.resolve(__dirname, 'src/nextjs/index.ts'),
-    //   core: path.resolve(__dirname, 'src/core/index.ts'),
-    //   tracking: path.resolve(__dirname, 'src/tracking/index.ts'),
-    // }
     rollupOptions: {
       external: ['react', 'react-dom', 'next', 'next/router'],
       output: {
-        dir: 'dist',
-        preserveModules: true,
-        preserveModulesRoot: 'src',
         exports: 'named',
+        paths: {
+          'next/router': 'next/router.js',
+        },
+        assetFileNames: (assetInfo) => {
+          // Rename the extracted CSS to styles.css
+          if (assetInfo.name === 'style.css') return 'styles.css'
+          return assetInfo.name || 'assets/[name][extname]'
+        },
       },
     },
+    cssCodeSplit: false, // Bundle all CSS together
     sourcemap: true,
     target: 'es2019',
     outDir: 'dist',

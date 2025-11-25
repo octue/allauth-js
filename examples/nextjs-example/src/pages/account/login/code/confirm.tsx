@@ -1,13 +1,11 @@
-import { Button } from "@components/core/Button";
-import { ErrorBox } from "@components/forms/ErrorBox";
-import InputGroup from "@components/forms/fields/InputGroup";
-import { FormLayout } from "@components/layout/FormLayout";
-import { LogoTitle } from "@components/layout/LogoTitle";
+import { Button } from "@octue/allauth-js/react";
+import { ErrorBox } from "@/components/forms/ErrorBox";
+import { InputGroup } from "@/components/forms/fields/InputGroup";
+import { FormLayout } from "@/components/layout/FormLayout";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useAuthStatus } from "@modules/allauth/hooks";
-import useSetErrors from "@modules/allauth/hooks/useSetErrors";
-import { Flows, confirmLoginCode } from "@modules/allauth/lib/allauth";
-import { AnonymousRoute } from "@modules/allauth/routing";
+import { useAuthStatus, useSetErrors } from "@octue/allauth-js/react";
+import { FLOWS, confirmLoginCode } from "@octue/allauth-js/core";
+import { AnonymousRoute } from "@octue/allauth-js/nextjs";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
@@ -56,15 +54,13 @@ function LoginCodeConfirm() {
   };
 
   useEffect(() => {
-    if (authStatus.pendingFlow?.id !== Flows.LOGIN_BY_CODE) {
+    if (authStatus.pendingFlow?.id !== FLOWS.LOGIN_BY_CODE) {
       router.push("/account/login/code");
     }
   }, [authStatus, router]);
 
   return (
-    <FormLayout>
-      <LogoTitle title="Enter login code" />
-
+    <FormLayout title="Enter login code">
       <form className="space-y-4" onSubmit={handleSubmit(onSubmit)}>
         <ErrorBox error={errors?.root?.message as FieldError | undefined} />
         <InputGroup

@@ -1,34 +1,23 @@
-import { useState } from "react";
-
-import { Button } from "@components/core/Button";
-import { LogoutIcon } from "@components/icons/Logout";
-import { ReturnIcon } from "@components/icons/Return";
-import { FormLayout } from "@components/layout/FormLayout";
-import { LogoTitle } from "@components/layout/LogoTitle";
-import { logout } from "@modules/allauth/lib/allauth";
-
-import { apolloClient } from "graph/apollo";
-import { useRouter } from "next/router";
+import { useState } from "react"
+import { useRouter } from "next/router"
+import { logout } from "@octue/allauth-js/core"
+import { Button, Logout as LogoutIcon, Return as ReturnIcon } from "@octue/allauth-js/react"
+import { FormLayout } from "@/components/layout/FormLayout"
 
 export default function Logout() {
   const [loading, setLoading] = useState(false);
 
-  const router = useRouter();
+  const router = useRouter()
 
-  // TODO REFACTOR REQUEST This handleClick needs to accept
-  // onComplete and onError callbacks instead of the
-  // application-specific logicc used here (to support this
-  // module becoming part of a library)
   const handleClick = () => {
-    setLoading(true);
+    setLoading(true)
     logout()
       .then(() => {
-        router.push("/");
-        apolloClient.clearStore();
+        router.push("/")
       })
       .catch(console.error)
-      .finally(() => setLoading(false));
-  };
+      .finally(() => setLoading(false))
+  }
 
   const handleReturn = () => {
     if (typeof window !== "undefined") {
@@ -37,25 +26,17 @@ export default function Logout() {
   };
 
   return (
-    <FormLayout>
-      <LogoTitle
-        title="Log out of Strands"
-        subtitle="Are you sure you want to log out?"
-      />
-      <div className="flex w-full justify-end">
-        <Button
-          palette="gray"
-          plain
-          className="mr-6 font-light"
-          onClick={handleReturn}
-        >
-          <ReturnIcon className="mr-2 size-4" />
+    <FormLayout title="Log out of allauth-js" subtitle="Are you sure you want to log out?">
+      <div className="flex w-full justify-end space-x-4">
+        <Button palette="gray" plain onClick={handleReturn}>
+          <ReturnIcon className="mr-2 w-4 h-4" />
           Return to app
         </Button>
-        <Button disabled={loading} onClick={handleClick}>
-          Log out <LogoutIcon className="ml-2 size-5" />
+        <Button palette="red" disabled={loading} onClick={handleClick}>
+          {loading ? "Logging out..." : "Log out"}
+          <LogoutIcon className="ml-2 w-5 h-5" />
         </Button>
       </div>
     </FormLayout>
-  );
+  )
 }

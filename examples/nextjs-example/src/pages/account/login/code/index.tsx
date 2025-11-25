@@ -1,12 +1,11 @@
-import { ErrorBox } from "@components/forms/ErrorBox";
-import InputGroup from "@components/forms/fields/InputGroup";
-import { FormLayout } from "@components/layout/FormLayout";
-import { LogoTitle } from "@components/layout/LogoTitle";
+import { ErrorBox } from "@/components/forms/ErrorBox";
+import { InputGroup } from "@/components/forms/fields/InputGroup";
+import { FormLayout } from "@/components/layout/FormLayout";
 import { zodResolver } from "@hookform/resolvers/zod";
 
-import { Button } from "@components/core/Button";
-import { requestLoginCode } from "@modules/allauth/lib/allauth";
-import { AnonymousRoute } from "@modules/allauth/routing";
+import { Button } from "@octue/allauth-js/react";
+import { requestLoginCode } from "@octue/allauth-js/core";
+import { AnonymousRoute } from "@octue/allauth-js/nextjs";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useForm } from "react-hook-form";
@@ -55,9 +54,7 @@ function LoginCode() {
   };
 
   return (
-    <FormLayout>
-      <LogoTitle title="Send login code" />
-
+    <FormLayout title="Send login code">
       <form className="space-y-4" onSubmit={handleSubmit(onSubmit)}>
         <ErrorBox error={errors?.root?.message as FieldError | undefined} />
 

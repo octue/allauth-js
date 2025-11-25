@@ -8,3 +8,10 @@ yarn-error.log*
 .vscode/
 *.tsbuildinfo
 .pnp.*
+
+# Local implementations (private repos) for additional testing and dev work
+local_examples
+
+*storybook.log
+storybook-static
+CLAUDE.md

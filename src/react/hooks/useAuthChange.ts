@@ -1,20 +1,24 @@
 import { useEffect, useRef, useState } from 'react'
 
 import { determineAuthChangeKind } from '../../core'
+import type { AuthResponse } from '../../core/types'
 import { useAuth } from './useAuth'
 import { useConfig } from './useConfig'
 
 export const useAuthChange = () => {
   const auth = useAuth()
   const config = useConfig()
-  const ref = useRef({ prevAuth: auth, event: null, didChange: false })
+  const ref = useRef<{
+    prevAuth: AuthResponse | undefined
+    event: string | null
+    didChange: boolean
+  }>({ prevAuth: auth, event: null, didChange: false })
   const [, setForcedUpdate] = useState(0)
   useEffect(() => {
-    if (ref.current.prevAuth) {
+    if (ref.current.prevAuth && auth && config) {
       ref.current.didChange = true
       const event = determineAuthChangeKind(ref.current.prevAuth, auth, config)
       if (event) {
-        //@ts-ignore
         ref.current.event = event
         setForcedUpdate((gen) => gen + 1)
       }
@@ -31,5 +35,5 @@ export const useAuthChange = () => {
     ref.current.event = null
   }
 
-  return [auth, event]
+  return [auth, event] as const
 }

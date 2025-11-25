@@ -3,18 +3,21 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev --turbopack",
-    "build": "next build --turbopack",
+    "dev": "next dev",
+    "build": "next build",
     "start": "next start",
     "lint": "biome check",
     "format": "biome format --write"
   },
   "dependencies": {
-    "@octue/allauth-js": "link:../..",
+    "@hookform/resolvers": "^3.9.0",
+    "@octue/allauth-js": "file:../..",
+    "@vercel/analytics": "^1.4.1",
     "next": "15.5.4",
     "react": "19.1.0",
     "react-dom": "19.1.0",
     "react-hook-form": "^7.63.0",
+    "react-toastify": "^11.0.5",
     "zod": "^4.1.11"
   },
   "devDependencies": {

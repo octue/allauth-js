@@ -1,13 +1,12 @@
-import { Button } from "@components/core/Button";
-import { LoadingOverlay } from "@components/core/LoadingOverlay";
-import { ErrorBox } from "@components/forms/ErrorBox";
-import { FormLayout } from "@components/layout/FormLayout";
-import { LogoTitle } from "@components/layout/LogoTitle";
-import useSetErrors from "@modules/allauth/hooks/useSetErrors";
+import { Button } from "@octue/allauth-js/react";
+import { LoadingOverlay } from "@/components/core/LoadingOverlay";
+import { ErrorBox } from "@/components/forms/ErrorBox";
+import { FormLayout } from "@/components/layout/FormLayout";
+import { useSetErrors } from "@octue/allauth-js/react";
 import {
   getEmailVerification,
   verifyEmail
-} from "@modules/allauth/lib/allauth";
+} from "@octue/allauth-js/core";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { FieldError, useForm } from "react-hook-form";
@@ -63,8 +62,7 @@ export default function VerifyEmail() {
   }
 
   return (
-    <FormLayout>
-      <LogoTitle title="Verify email" />
+    <FormLayout title="Verify email">
       <form className="space-y-4" onSubmit={handleSubmit(onSubmit)}>
         {!verification?.data?.email && (
           <div>

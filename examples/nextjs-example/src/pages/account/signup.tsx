@@ -1,17 +1,16 @@
-import { Button } from "@components/core/Button";
-import { ErrorBox } from "@components/forms/ErrorBox";
-import InputGroup from "@components/forms/fields/InputGroup";
-import { FormLayout } from "@components/layout/FormLayout";
-import { LogoTitle } from "@components/layout/LogoTitle";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { MIN_PASSWORD_LENGTH } from "@modules/allauth/constants";
-import useSetErrors from "@modules/allauth/hooks/useSetErrors";
-import { signUp } from "@modules/allauth/lib/allauth";
-import { AnonymousRoute } from "@modules/allauth/routing";
-import { track } from "@vercel/analytics";
-import Link from "next/link";
-import { FieldError, useForm } from "react-hook-form";
-import { z } from "zod";
+import Link from "next/link"
+import { zodResolver } from "@hookform/resolvers/zod"
+import { useForm } from "react-hook-form"
+import { z } from "zod"
+import { signUp } from "@octue/allauth-js/core"
+import { Button, useSetErrors } from "@octue/allauth-js/react"
+import { AnonymousRoute } from "@octue/allauth-js/nextjs"
+import { ErrorBox } from "@/components/forms/ErrorBox"
+import { InputGroup } from "@/components/forms/fields/InputGroup"
+import { FormLayout } from "@/components/layout/FormLayout"
+import { track } from "@vercel/analytics"
+
+const MIN_PASSWORD_LENGTH = 8
 
 // import ProviderList from '../../socialaccount/ProviderList'
 
@@ -59,11 +58,10 @@ function SignUp() {
   };
 
   return (
-    <FormLayout>
-      <LogoTitle title="Sign up to Strands" />
+    <FormLayout title="Sign up to allauth-js">
       <form className="space-y-6" onSubmit={handleSubmit(onSubmit)}>
         <ErrorBox
-          error={errors?.root?.nonFieldError as FieldError | undefined}
+          errors={errors?.root?.nonFieldError?.message ? [errors.root.nonFieldError.message] : undefined}
         />
 
         <InputGroup
@@ -105,12 +103,8 @@ function SignUp() {
           required
         />
 
-        <Button
-          type="submit"
-          className="mt-2 w-full"
-          disabled={isSubmitting && !isDirty}
-        >
-          Sign up
+        <Button type="submit" className="mt-2 w-full" disabled={isSubmitting && !isDirty}>
+          {isSubmitting ? "Signing up..." : "Sign up"}
         </Button>
       </form>
 

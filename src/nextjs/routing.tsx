@@ -1,18 +1,42 @@
 import type { ReactNode } from 'react'
+import { useContext } from 'react'
 
 import type { NextRouter } from 'next/router'
 import { useRouter } from 'next/router'
 
 import { AUTH_CHANGE_KIND } from '../core/constants'
 import { flow2path } from '../core/urls'
-import { useAuthChange, useAuthStatus } from '../react/hooks'
+import type { URLConfig } from '../core/types'
+import { AuthContext } from '../react/AuthContext'
+import { useAuthChange, useAuthStatus, useConfig } from '../react/hooks'
 import type { AuthResponse, Flow } from '../core'
 
-export const URLs = Object.freeze({
+// Default URLs - can be overridden via AuthContextProvider props or backend config
+const DEFAULT_URLS = Object.freeze({
   LOGIN_URL: '/account/login',
-  LOGIN_REDIRECT_URL: '/powercurves',
+  LOGIN_REDIRECT_URL: '/account/settings',
   LOGOUT_REDIRECT_URL: '/',
 })
+
+// Deprecated: Use useURLs() hook instead for dynamic URL configuration
+export const URLs = DEFAULT_URLS
+
+// Hook to get merged URLs from context props, backend config, and defaults
+function useURLs() {
+  const context = useContext(AuthContext)
+  const config = useConfig()
+
+  // @ts-ignore
+  const propsUrls: URLConfig | undefined = context?.urls
+  const configUrls: URLConfig | undefined = config?.data?.urls
+
+  // Merge URLs: props override config, config overrides defaults
+  return {
+    LOGIN_URL: propsUrls?.login || configUrls?.login || DEFAULT_URLS.LOGIN_URL,
+    LOGIN_REDIRECT_URL: propsUrls?.loginRedirect || configUrls?.loginRedirect || DEFAULT_URLS.LOGIN_REDIRECT_URL,
+    LOGOUT_REDIRECT_URL: propsUrls?.logoutRedirect || configUrls?.logoutRedirect || DEFAULT_URLS.LOGOUT_REDIRECT_URL,
+  }
+}
 
 export function pathForFlow(flowId: string): string {
   const path = flow2path[flowId]
@@ -53,6 +77,7 @@ export function AuthenticatedRoute({
 }): ReactNode {
   const router = useRouter()
   const status = useAuthStatus()
+  const urls = useURLs()
   const next = `next=${encodeURIComponent(router.asPath)}`
   if (!status.initialised) {
     return loading
@@ -60,7 +85,7 @@ export function AuthenticatedRoute({
   if (status.isAuthenticated) {
     return children
   }
-  router.push(`${URLs.LOGIN_URL}?${next}`)
+  router.push(`${urls.LOGIN_URL}?${next}`)
 }
 
 /* Protects a route such that if you arrive on it, you are diverted
@@ -73,10 +98,11 @@ export function AnonymousRoute({
 }): ReactNode {
   const status = useAuthStatus()
   const router = useRouter()
+  const urls = useURLs()
   if (!status.isAuthenticated) {
     return children
   }
-  const next = getNext(router, URLs.LOGIN_REDIRECT_URL)
+  const next = getNext(router, urls.LOGIN_REDIRECT_URL)
   router.push(next)
 }
 
@@ -87,18 +113,19 @@ export function AuthChangeRedirector({
 }): ReactNode {
   const [auth, event] = useAuthChange()
   const router = useRouter()
+  const urls = useURLs()
 
   switch (event) {
     case AUTH_CHANGE_KIND.LOGGED_OUT: {
-      router.push(URLs.LOGOUT_REDIRECT_URL)
+      router.push(urls.LOGOUT_REDIRECT_URL)
       return null
     }
     case AUTH_CHANGE_KIND.LOGGED_IN: {
-      router.push(getNext(router, URLs.LOGIN_REDIRECT_URL))
+      router.push(getNext(router, urls.LOGIN_REDIRECT_URL))
       return null
     }
     case AUTH_CHANGE_KIND.REAUTHENTICATED: {
-      router.push(getNext(router, URLs.LOGIN_REDIRECT_URL))
+      router.push(getNext(router, urls.LOGIN_REDIRECT_URL))
       return null
     }
     case AUTH_CHANGE_KIND.REAUTHENTICATION_REQUIRED: {

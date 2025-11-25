@@ -1,12 +1,12 @@
+import type { FC, ReactNode, SyntheticEvent } from 'react'
+import { useCallback } from 'react'
+
+import type { UrlObject } from 'node:url'
 import clsx from 'clsx'
 import Ripple from 'material-ripple-effects'
-import type { UrlObject } from 'node:url'
-import Link from 'next/link'
-import { useCallback } from 'react'
-import type { FC, ReactNode, SyntheticEvent } from 'react'
 
 export interface ButtonProps {
-  palette?: 'theme' | 'red' | 'error' | 'amber' | 'gray' | 'green'
+  palette?: 'allauth' | 'red' | 'error' | 'amber' | 'gray' | 'green'
   disabled?: boolean
   loading?: boolean
   size?: 'xs' | 'sm' | 'md' | 'lg'
@@ -28,11 +28,11 @@ export const sizeClasses = {
 }
 
 export const colorPalette = {
-  theme: {
+  allauth: {
     default:
-      'text-white bg-theme-600 hover:bg-theme-500 focus:bg-theme-500 disabled:text-gray-500 disabled:bg-gray-200/25 dark:text-white dark:bg-theme-500 dark:hover:bg-theme-400 dark:focus:bg-theme-500 dark:disabled:bg-gray-600/25 dark:disabled:text-gray-500',
+      'text-white bg-allauth-600 hover:bg-allauth-500 focus:bg-allauth-500 disabled:text-gray-500 disabled:bg-gray-200/25 dark:text-white dark:bg-allauth-500 dark:hover:bg-allauth-400 dark:focus:bg-allauth-500 dark:disabled:bg-gray-600/25 dark:disabled:text-gray-500',
     plain:
-      'text-theme-600 hover:text-theme-800 hover:bg-theme-200/25 disabled:hover:bg-transparent focus:text-theme-800 disabled:text-gray-500 dark:text-theme-300 dark:hover:font-semibold dark:focus:font-semibold dark:disabled:text-gray-500',
+      'text-allauth-600 hover:text-allauth-800 hover:bg-allauth-200/25 disabled:hover:bg-transparent focus:text-allauth-800 disabled:text-gray-500 dark:text-allauth-300 dark:hover:font-semibold dark:focus:font-semibold dark:disabled:text-gray-500',
   },
   red: {
     default:
@@ -68,7 +68,7 @@ export const colorPalette = {
 
 export const Button: FC<ButtonProps> = ({
   size = 'md',
-  palette = 'theme',
+  palette = 'allauth',
   disabled,
   type = 'button',
   loading = false,
@@ -94,17 +94,17 @@ export const Button: FC<ButtonProps> = ({
     },
     [onMouseDown, rippleEffect]
   )
-  const Component = href ? Link : 'button'
+  const Component = href ? 'a' : 'button'
   const componentProps = href ? { href, title, ...rest } : rest
 
   return (
     //@ts-ignore
     <Component
       className={clsx(
-        className,
         'flex items-center justify-center rounded-md font-medium focus:outline-none',
         sizeClass,
-        colorClasses
+        colorClasses,
+        className
       )}
       onMouseDown={handleMouseDown}
       disabled={disabled || loading}

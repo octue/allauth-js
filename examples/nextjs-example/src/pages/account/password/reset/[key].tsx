@@ -1,19 +1,19 @@
-import { Button } from "@components/core/Button";
-import { resetPassword } from "@modules/allauth/lib/allauth";
-import { AnonymousRoute } from "@modules/allauth/routing";
+import { Button } from "@octue/allauth-js/react";
+import { resetPassword } from "@octue/allauth-js/core";
+import { AnonymousRoute } from "@octue/allauth-js/nextjs";
 
-import { ErrorBox } from "@components/forms/ErrorBox";
-import InputGroup from "@components/forms/fields/InputGroup";
-import { FormLayout } from "@components/layout/FormLayout";
-import { LogoTitle } from "@components/layout/LogoTitle";
+import { ErrorBox } from "@/components/forms/ErrorBox";
+import { InputGroup } from "@/components/forms/fields/InputGroup";
+import { FormLayout } from "@/components/layout/FormLayout";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { MIN_PASSWORD_LENGTH } from "@modules/allauth/constants";
-import useSetErrors from "@modules/allauth/hooks/useSetErrors";
+import { useSetErrors } from "@octue/allauth-js/react";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { FieldError, useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import { z } from "zod";
+
+const MIN_PASSWORD_LENGTH = 8;
 
 const schema = z.object({
   password: z
@@ -67,8 +67,7 @@ function PasswordResetKey() {
   };
 
   return (
-    <FormLayout>
-      <LogoTitle title="Reset password" />
+    <FormLayout title="Reset password">
       <form className="space-y-4" onSubmit={handleSubmit(onSubmit)}>
         <ErrorBox
           error={errors?.root?.nonFieldError as FieldError | undefined}

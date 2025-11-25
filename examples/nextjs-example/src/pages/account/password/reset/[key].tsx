@@ -1,19 +1,17 @@
-import { Button } from "@components/core/Button";
-import { resetPassword } from "@modules/allauth/lib/allauth";
-import { AnonymousRoute } from "@modules/allauth/routing";
+import { zodResolver } from '@hookform/resolvers/zod'
+import { resetPassword } from '@octue/allauth-js/core'
+import { AnonymousRoute } from '@octue/allauth-js/nextjs'
+import { Button, useSetErrors } from '@octue/allauth-js/react'
+import Link from 'next/link'
+import { useRouter } from 'next/router'
+import { type FieldError, useForm } from 'react-hook-form'
+import { toast } from 'react-toastify'
+import { z } from 'zod'
+import { ErrorBox } from '@/components/forms/ErrorBox'
+import { InputGroup } from '@/components/forms/fields/InputGroup'
+import { FormLayout } from '@/components/layout/FormLayout'
 
-import { ErrorBox } from "@components/forms/ErrorBox";
-import InputGroup from "@components/forms/fields/InputGroup";
-import { FormLayout } from "@components/layout/FormLayout";
-import { LogoTitle } from "@components/layout/LogoTitle";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { MIN_PASSWORD_LENGTH } from "@modules/allauth/constants";
-import useSetErrors from "@modules/allauth/hooks/useSetErrors";
-import Link from "next/link";
-import { useRouter } from "next/router";
-import { FieldError, useForm } from "react-hook-form";
-import { toast } from "react-toastify";
-import { z } from "zod";
+const MIN_PASSWORD_LENGTH = 8
 
 const schema = z.object({
   password: z
@@ -21,11 +19,11 @@ const schema = z.object({
     .min(
       MIN_PASSWORD_LENGTH,
       `Password must be at least ${MIN_PASSWORD_LENGTH} characters long`
-    )
-});
+    ),
+})
 
 interface FormData {
-  password: string;
+  password: string
 }
 
 function PasswordResetKey() {
@@ -33,42 +31,39 @@ function PasswordResetKey() {
     register,
     handleSubmit,
     setError,
-    formState: { isSubmitting, errors }
+    formState: { isSubmitting, errors },
   } = useForm<FormData>({
-    resolver: zodResolver(schema)
-  });
+    resolver: zodResolver(schema),
+  })
 
-  const setErrors = useSetErrors<FormData>(setError);
-  const router = useRouter();
-  const { key } = router.query;
+  const setErrors = useSetErrors<FormData>(setError)
+  const router = useRouter()
+  const { key } = router.query
 
   const onSubmit = (data: FormData) => {
     resetPassword(data.password, key)
       .then((response) => {
-        console.log(response);
+        console.log(response)
         if ([200, 401].includes(response.status)) {
-          toast.success("Reset password successfully");
-          router.push("/account/login");
+          toast.success('Reset password successfully')
+          router.push('/account/login')
         } else {
-          toast.error(
-            "Your reset code is invalid or expired. Please try again"
-          );
-          router.push("/account/password/reset");
+          toast.error('Your reset code is invalid or expired. Please try again')
+          router.push('/account/password/reset')
         }
 
-        return response;
+        return response
       })
       .catch((error) => {
-        console.error(error);
+        console.error(error)
         if (error.fieldErrors) {
-          setErrors(error.fieldErrors);
+          setErrors(error.fieldErrors)
         }
-      });
-  };
+      })
+  }
 
   return (
-    <FormLayout>
-      <LogoTitle title="Reset password" />
+    <FormLayout title="Reset password">
       <form className="space-y-4" onSubmit={handleSubmit(onSubmit)}>
         <ErrorBox
           error={errors?.root?.nonFieldError as FieldError | undefined}
@@ -77,8 +72,8 @@ function PasswordResetKey() {
           label="New password"
           id="password"
           error={errors?.password?.message}
-          {...register("password")}
-          autoComplete={"new-password"}
+          {...register('password')}
+          autoComplete={'new-password'}
           type="password"
           required
         >
@@ -94,7 +89,7 @@ function PasswordResetKey() {
         </Button>
       </form>
     </FormLayout>
-  );
+  )
 }
 
 // TODO Either use server side props, or an initial fetch, to determine if the key
@@ -114,5 +109,5 @@ export default function AnonymousPasswordResetKey({ ...pageProps }) {
     <AnonymousRoute>
       <PasswordResetKey {...pageProps} />
     </AnonymousRoute>
-  );
+  )
 }

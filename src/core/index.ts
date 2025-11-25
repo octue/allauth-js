@@ -57,6 +57,7 @@ export type {
   AuthenticatorKind,
   AuthenticatorList,
   AuthenticatorListResponse,
+  AuthInfo,
   AuthResponse,
   BaseAuthenticationMeta,
   BaseAuthenticator,
@@ -80,6 +81,7 @@ export type {
   SessionsResponse,
   TOTPAuthenticator,
   TOTPAuthenticatorResponse,
+  URLConfig,
   User,
   WebAuthnAuthenticator,
 } from './types'

@@ -88,7 +88,7 @@ export const EmailsTable = ({
                       <div className="flex items-center">
                         {email.email}
                         {email.primary && (
-                          <span className="ml-5 inline-flex items-center rounded-md bg-theme-50/60 px-2 py-1 text-xs font-medium text-theme-700 ring-1 ring-inset ring-theme-600/20">
+                          <span className="ml-5 inline-flex items-center rounded-md bg-allauth-50/60 px-2 py-1 text-xs font-medium text-allauth-700 ring-1 ring-inset ring-allauth-600/20">
                             Primary
                           </span>
                         )}
@@ -111,7 +111,7 @@ export const EmailsTable = ({
                       {!email.verified && (
                         <button
                           type="button"
-                          className="text-theme-600 hover:text-theme-500 disabled:text-gray-400 "
+                          className="text-allauth-600 hover:text-allauth-500 disabled:text-gray-400 "
                           disabled={disabled}
                           onClick={() => verify(email.email)}
                         >
@@ -120,7 +120,7 @@ export const EmailsTable = ({
                       )}
                       <button
                         type="button"
-                        className="ml-6 text-theme-600 hover:text-theme-500 disabled:text-gray-400 "
+                        className="ml-6 text-allauth-600 hover:text-allauth-500 disabled:text-gray-400 "
                         disabled={disabled || email.primary || !email.verified}
                         onClick={() => makePrimary(email.email)}
                       >

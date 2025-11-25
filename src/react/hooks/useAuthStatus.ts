@@ -1,13 +1,10 @@
 import { useContext } from 'react'
 
-import { AuthContext } from '../AuthContext'
 import { authInfo } from '../../core'
+import type { AuthInfo } from '../../core/types'
+import { AuthContext } from '../AuthContext'
 
-export function useAuthStatus() {
-  //@ts-ignore
-  const auth = useContext(AuthContext)?.auth
-  //@ts-ignore
-  const config = useContext(AuthContext)?.config
-  const info = authInfo(auth, config)
-  return info
+export function useAuthStatus(): AuthInfo {
+  const ctx = useContext(AuthContext)
+  return authInfo(ctx?.auth, ctx?.config)
 }

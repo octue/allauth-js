@@ -6,6 +6,7 @@ import type {
   AuthChangeEventContents,
   AuthData,
   AuthenticatorListResponse,
+  AuthInfo,
   AuthResponse,
   ConfigurationResponse,
   EmailAddressesResponse,
@@ -268,20 +269,25 @@ export function redirectToProvider(
   postForm(URLs.REDIRECT_TO_PROVIDER, payload)
 }
 
-export function authInfo(auth: AuthResponse, config: ConfigurationResponse) {
+export function authInfo(
+  auth: AuthResponse | undefined,
+  config: ConfigurationResponse | undefined
+): AuthInfo {
   if (typeof auth === 'undefined' || config?.status !== 200) {
-    return { initialised: false }
+    return { initialised: false, isLoading: true }
   }
+  const meta = auth.meta as { is_authenticated?: boolean } | undefined
   const isAuthenticated =
-    auth.status === 200 || (auth.status === 401 && auth.meta?.is_authenticated)
-  const requiresReauthentication = isAuthenticated && auth.status === 401
+    auth.status === 200 || (auth.status === 401 && meta?.is_authenticated)
+  const requiresReauthentication = Boolean(isAuthenticated && auth.status === 401)
   const pendingFlow = auth.data?.flows?.find((flow) => flow.is_pending)
   return {
-    isAuthenticated,
+    isAuthenticated: Boolean(isAuthenticated),
     requiresReauthentication,
     user: isAuthenticated && auth.data ? auth.data.user : null,
     pendingFlow,
     initialised: true,
+    isLoading: false,
   }
 }
 
@@ -303,6 +309,7 @@ export function determineAuthChangeKind(
       user: null,
       pendingFlow: undefined,
       initialised: fromInfo.initialised,
+      isLoading: fromInfo.isLoading,
     }
   }
   if (!fromInfo.isAuthenticated && toInfo.isAuthenticated) {

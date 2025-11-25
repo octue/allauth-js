@@ -148,11 +148,18 @@ export interface Session {
   [k: string]: unknown
 }
 
+export interface URLConfig {
+  login?: string
+  loginRedirect?: string
+  logoutRedirect?: string
+}
+
 export interface ConfigurationResponseData {
   account?: Record<string, unknown>
   socialaccount?: Record<string, unknown>
   mfa?: Record<string, unknown>
   usersessions?: Record<string, unknown>
+  urls?: URLConfig
 }
 
 export type ProviderAccountsResponse = ApiResponse<ProviderAccount[]>
@@ -185,6 +192,17 @@ export type ApiResponse<T = unknown> = {
 }
 
 export type AuthResponse = ApiResponse<AuthData>
+
+/** Return type for the authInfo() function */
+export interface AuthInfo {
+  initialised: boolean
+  /** Convenience property: equivalent to !initialised */
+  isLoading: boolean
+  isAuthenticated?: boolean
+  requiresReauthentication?: boolean
+  user?: User | null
+  pendingFlow?: Flow
+}
 
 // Simple empty response used for endpoints that return no structured data in 'data'
 export type EmptyResponse = ApiResponse<null>

@@ -1,5 +1,11 @@
 @import "tailwindcss";
 
+/* Enable class-based dark mode */
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* Include allauth-js library components in Tailwind's content scanning */
+@source "../../node_modules/@octue/allauth-js/dist/**/*.{js,mjs}";
+
 :root {
   --background: #ffffff;
   --foreground: #171717;
@@ -10,13 +16,38 @@
   --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+
+  /* allauth-js library color scale - customize these to match your brand */
+  --color-allauth-50: #f1cfda;
+  --color-allauth-100: #ecbfce;
+  --color-allauth-200: #e2a0b6;
+  --color-allauth-300: #d9819e;
+  --color-allauth-400: #cf6186;
+  --color-allauth-500: #c6426e;
+  --color-allauth-600: #a03055;
+  --color-allauth-700: #75233e;
+  --color-allauth-800: #4a1627;
+  --color-allauth-900: #1e0910;
+  --color-allauth-950: #090305;
+
+  /* Gray scale (slate variant) used by allauth-js components */
+  --color-gray-50: #f8fafc;
+  --color-gray-100: #f1f5f9;
+  --color-gray-200: #e2e8f0;
+  --color-gray-300: #cbd5e1;
+  --color-gray-400: #94a3b8;
+  --color-gray-500: #64748b;
+  --color-gray-600: #475569;
+  --color-gray-700: #334155;
+  --color-gray-800: #1e293b;
+  --color-gray-900: #0f172a;
+  --color-gray-950: #020617;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+/* Dark mode colors - applied when .dark class is on html element */
+.dark {
+  --background: #0a0a0a;
+  --foreground: #ededed;
 }
 
 body {

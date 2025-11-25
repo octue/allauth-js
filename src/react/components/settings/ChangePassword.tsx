@@ -9,7 +9,7 @@ export const ChangePassword = () => {
             Password
           </h1>
           <Button
-            palette="theme"
+            palette="allauth"
             className="px-1 py-2 w-1/3 mt-1"
             href="/account/password/change"
           >

@@ -1,0 +1,15 @@
+@import url("https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;500;600;700&display=swap");
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  button:disabled,
+  button[disabled] {
+    @apply opacity-60;
+  }
+
+  html {
+    @apply scroll-smooth;
+  }
+}

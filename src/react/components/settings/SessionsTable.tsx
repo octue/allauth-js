@@ -1,14 +1,6 @@
 import { Button } from '../common/Button'
 import { BadgeCheck } from '../icons/BadgeCheck'
-
-export interface Session {
-  id?: number
-  is_current: boolean
-  created_at: string
-  ip: string
-  user_agent: string
-  last_seen_at: string
-}
+import type { Session } from '../../../core/types'
 
 export interface SessionsTableProps {
   className?: string
@@ -30,7 +22,7 @@ export const SessionsTable: React.FC<SessionsTableProps> = ({
   const sessions = [currentSession, ...otherSessions]
 
   return (
-    <div className={`bg-white px-4 sm:px-6 lg:px-8 ${className}`}>
+    <div className={`px-4 sm:px-6 lg:px-8 ${className}`}>
       <div className="sm:flex sm:items-center">
         <div className="sm:flex-auto">
           <h1 className="text-base font-semibold leading-6 text-gray-900">
@@ -96,7 +88,7 @@ export const SessionsTable: React.FC<SessionsTableProps> = ({
               <tbody className="divide-y divide-gray-200">
                 {sessions.map((session) => (
                   <tr key={session.created_at}>
-                    <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-theme-600 sm:pl-0">
+                    <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-allauth-600 sm:pl-0">
                       {session.is_current ? <BadgeCheck /> : ''}
                     </td>
                     <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-500 sm:pl-0">
@@ -118,7 +110,7 @@ export const SessionsTable: React.FC<SessionsTableProps> = ({
                     <td className="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-0">
                       <button
                         type="button"
-                        className="text-theme-600 hover:text-theme-800 disabled:text-gray-400"
+                        className="text-allauth-600 hover:text-allauth-800 disabled:text-gray-400"
                         disabled={disabled}
                         onClick={() => endSessions([session])}
                       >

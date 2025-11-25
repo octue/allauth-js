@@ -1,20 +1,15 @@
-import { Button } from '@components/core/Button'
-import { ErrorBox } from '@components/forms/ErrorBox'
-import InputGroup from '@components/forms/fields/InputGroup'
-import { FormLayout } from '@components/layout/FormLayout'
-import { LogoTitle } from '@components/layout/LogoTitle'
 import { zodResolver } from '@hookform/resolvers/zod'
-import {
-  AnonymousRoute,
-  requestPasswordReset,
-  useSetErrors,
-} from '@octue/allauth-js'
-
+import { requestPasswordReset } from '@octue/allauth-js/core'
+import { AnonymousRoute } from '@octue/allauth-js/nextjs'
+import { Button, useSetErrors } from '@octue/allauth-js/react'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { type FieldError, useForm } from 'react-hook-form'
 import { toast } from 'react-toastify'
 import { z } from 'zod'
+import { ErrorBox } from '@/components/forms/ErrorBox'
+import { InputGroup } from '@/components/forms/fields/InputGroup'
+import { FormLayout } from '@/components/layout/FormLayout'
 
 const schema = z.object({
   email: z.email('Invalid email address'),
@@ -44,8 +39,7 @@ function PasswordReset() {
   }
 
   return (
-    <FormLayout>
-      <LogoTitle title="Request password reset" />
+    <FormLayout title="Request password reset">
       <form className="space-y-4" onSubmit={handleSubmit(onSubmit)}>
         <ErrorBox
           error={errors?.root?.nonFieldError as FieldError | undefined}
@@ -65,7 +59,11 @@ function PasswordReset() {
             Back to login
           </Link>
         </InputGroup>
-        <Button type="submit" className="!mt-10 w-full" disabled={isSubmitting}>
+        <Button
+          type="submit"
+          className="mt-10! max-w-full"
+          disabled={isSubmitting}
+        >
           Reset
         </Button>
       </form>

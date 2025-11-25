@@ -1,11 +1,11 @@
 import '@/styles/globals.css'
 import 'react-toastify/dist/ReactToastify.css'
 
+import { AuthContextProvider } from '@octue/allauth-js/react'
 // If you're not using Tailwind CSS, uncomment the following line to import
 // the pre-compiled styles for allauth-js components:
 // import '@octue/allauth-js/styles.css'
 import type { AppProps } from 'next/app'
-import { AuthContextProvider } from '@octue/allauth-js/react'
 import { ToastContainer } from 'react-toastify'
 
 export default function App({ Component, pageProps }: AppProps) {

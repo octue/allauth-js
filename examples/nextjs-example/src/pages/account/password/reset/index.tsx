@@ -61,7 +61,7 @@ function PasswordReset() {
         </InputGroup>
         <Button
           type="submit"
-          className="!mt-10 max-w-full"
+          className="mt-10! max-w-full"
           disabled={isSubmitting}
         >
           Reset

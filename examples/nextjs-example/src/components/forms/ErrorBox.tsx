@@ -1,5 +1,6 @@
-import React from "react"
-import type { FieldError } from "react-hook-form"
+import type React from 'react'
+
+import type { FieldError } from 'react-hook-form'
 
 export interface ErrorBoxProps {
   errors?: string[]
@@ -7,14 +8,21 @@ export interface ErrorBoxProps {
   className?: string
 }
 
-export const ErrorBox: React.FC<ErrorBoxProps> = ({ errors, error, className = "" }) => {
+export const ErrorBox: React.FC<ErrorBoxProps> = ({
+  errors,
+  error,
+  className = '',
+}) => {
   // Convert error prop to errors array
-  const errorMessages = errors || (error ? [typeof error === 'string' ? error : error.message] : [])
+  const errorMessages =
+    errors || (error ? [typeof error === 'string' ? error : error.message] : [])
 
   if (!errorMessages || errorMessages.length === 0) return null
 
   return (
-    <div className={`bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-md p-4 ${className}`}>
+    <div
+      className={`bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-md p-4 ${className}`}
+    >
       <div className="flex">
         <div className="flex-shrink-0">
           <svg
@@ -32,7 +40,9 @@ export const ErrorBox: React.FC<ErrorBoxProps> = ({ errors, error, className = "
         </div>
         <div className="ml-3">
           {errorMessages.length === 1 ? (
-            <p className="text-sm text-red-800 dark:text-red-200">{errorMessages[0]}</p>
+            <p className="text-sm text-red-800 dark:text-red-200">
+              {errorMessages[0]}
+            </p>
           ) : (
             <ul className="list-disc list-inside text-sm text-red-800 dark:text-red-200 space-y-1">
               {errorMessages.map((err, index) => (

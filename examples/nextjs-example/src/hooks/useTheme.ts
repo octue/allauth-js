@@ -7,7 +7,9 @@ const STORAGE_KEY = 'theme'
 
 function getSystemTheme(): ResolvedTheme {
   if (typeof window === 'undefined') return 'light'
-  return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
+  return window.matchMedia('(prefers-color-scheme: dark)').matches
+    ? 'dark'
+    : 'light'
 }
 
 function getStoredTheme(): Theme {

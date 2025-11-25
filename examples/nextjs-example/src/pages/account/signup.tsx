@@ -1,14 +1,14 @@
-import Link from "next/link"
-import { zodResolver } from "@hookform/resolvers/zod"
-import { useForm } from "react-hook-form"
-import { z } from "zod"
-import { signUp } from "@octue/allauth-js/core"
-import { Button, useSetErrors } from "@octue/allauth-js/react"
-import { AnonymousRoute } from "@octue/allauth-js/nextjs"
-import { ErrorBox } from "@/components/forms/ErrorBox"
-import { InputGroup } from "@/components/forms/fields/InputGroup"
-import { FormLayout } from "@/components/layout/FormLayout"
-import { track } from "@vercel/analytics"
+import { zodResolver } from '@hookform/resolvers/zod'
+import { signUp } from '@octue/allauth-js/core'
+import { AnonymousRoute } from '@octue/allauth-js/nextjs'
+import { Button, useSetErrors } from '@octue/allauth-js/react'
+import { track } from '@vercel/analytics'
+import Link from 'next/link'
+import { useForm } from 'react-hook-form'
+import { z } from 'zod'
+import { ErrorBox } from '@/components/forms/ErrorBox'
+import { InputGroup } from '@/components/forms/fields/InputGroup'
+import { FormLayout } from '@/components/layout/FormLayout'
 
 const MIN_PASSWORD_LENGTH = 8
 
@@ -16,28 +16,28 @@ const MIN_PASSWORD_LENGTH = 8
 
 // Define the form data type
 interface FormData {
-  username: string;
-  email: string;
-  password: string;
+  username: string
+  email: string
+  password: string
 }
 
 // Define the validation schema
 const schema = z.object({
-  email: z.string().email("Invalid email address"),
-  username: z.string().min(1, "Username is required"),
+  email: z.string().email('Invalid email address'),
+  username: z.string().min(1, 'Username is required'),
   password: z
     .string()
     .min(
       MIN_PASSWORD_LENGTH,
       `Password must be at least ${MIN_PASSWORD_LENGTH} characters long`
-    )
-});
+    ),
+})
 
 const trackSignUp = (response: any) => {
   if (!response?.errors) {
-    track("Signup Success");
+    track('Signup Success')
   }
-};
+}
 
 function SignUp() {
   // const config = useConfig();
@@ -47,21 +47,25 @@ function SignUp() {
     register,
     handleSubmit,
     setError,
-    formState: { isDirty, errors, isSubmitting }
+    formState: { isDirty, errors, isSubmitting },
   } = useForm<FormData>({
-    resolver: zodResolver(schema)
-  });
-  const setErrors = useSetErrors<FormData>(setError);
+    resolver: zodResolver(schema),
+  })
+  const setErrors = useSetErrors<FormData>(setError)
 
   const onSubmit = (data: FormData) => {
-    signUp(data).then(setErrors).then(trackSignUp);
-  };
+    signUp(data).then(setErrors).then(trackSignUp)
+  }
 
   return (
     <FormLayout title="Sign up to allauth-js">
       <form className="space-y-6" onSubmit={handleSubmit(onSubmit)}>
         <ErrorBox
-          errors={errors?.root?.nonFieldError?.message ? [errors.root.nonFieldError.message] : undefined}
+          errors={
+            errors?.root?.nonFieldError?.message
+              ? [errors.root.nonFieldError.message]
+              : undefined
+          }
         />
 
         <InputGroup
@@ -69,7 +73,7 @@ function SignUp() {
           label="User Handle"
           error={errors?.username?.message}
           id="username"
-          {...register("username")}
+          {...register('username')}
           // autoComplete="username"
           required
         >
@@ -87,7 +91,7 @@ function SignUp() {
           error={errors?.email?.message}
           id="email"
           type="email"
-          {...register("email")}
+          {...register('email')}
           autoComplete="email"
           required
         />
@@ -98,13 +102,17 @@ function SignUp() {
           error={errors?.password?.message}
           id="password"
           type="password"
-          {...register("password")}
+          {...register('password')}
           autoComplete="new-password"
           required
         />
 
-        <Button type="submit" className="mt-2 w-full" disabled={isSubmitting && !isDirty}>
-          {isSubmitting ? "Signing up..." : "Sign up"}
+        <Button
+          type="submit"
+          className="mt-2 w-full"
+          disabled={isSubmitting && !isDirty}
+        >
+          {isSubmitting ? 'Signing up...' : 'Sign up'}
         </Button>
       </form>
 
@@ -115,7 +123,7 @@ function SignUp() {
         </>
       ) : null} */}
     </FormLayout>
-  );
+  )
 }
 
 /* TODO REFACTOR REQUEST Anonymous pages should be routed using next middleware
@@ -126,7 +134,7 @@ export default function AnonymousSignUp({ ...pageProps }) {
     <AnonymousRoute>
       <SignUp {...pageProps} />
     </AnonymousRoute>
-  );
+  )
 }
 
 // TODO Refactoring anonymous routes to server side may look a bit like this

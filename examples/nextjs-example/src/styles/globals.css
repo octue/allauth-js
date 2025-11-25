@@ -18,16 +18,16 @@
   --font-mono: var(--font-geist-mono);
 
   /* allauth-js library color scale - customize these to match your brand */
-  --color-allauth-50: #F1CFDA;
-  --color-allauth-100: #ECBFCE;
-  --color-allauth-200: #E2A0B6;
-  --color-allauth-300: #D9819E;
-  --color-allauth-400: #CF6186;
-  --color-allauth-500: #C6426E;
-  --color-allauth-600: #A03055;
-  --color-allauth-700: #75233E;
-  --color-allauth-800: #4A1627;
-  --color-allauth-900: #1E0910;
+  --color-allauth-50: #f1cfda;
+  --color-allauth-100: #ecbfce;
+  --color-allauth-200: #e2a0b6;
+  --color-allauth-300: #d9819e;
+  --color-allauth-400: #cf6186;
+  --color-allauth-500: #c6426e;
+  --color-allauth-600: #a03055;
+  --color-allauth-700: #75233e;
+  --color-allauth-800: #4a1627;
+  --color-allauth-900: #1e0910;
   --color-allauth-950: #090305;
 
   /* Gray scale (slate variant) used by allauth-js components */

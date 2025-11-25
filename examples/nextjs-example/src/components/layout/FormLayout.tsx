@@ -1,6 +1,8 @@
-import Link from "next/link"
-import React from "react"
-import { AllauthLogo } from "./AllauthLogo"
+import type React from 'react'
+
+import Link from 'next/link'
+
+import { AllauthLogo } from './AllauthLogo'
 
 export interface FormLayoutProps {
   children: React.ReactNode

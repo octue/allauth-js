@@ -1,9 +1,14 @@
-import { AuthenticatedRoute } from "@octue/allauth-js/nextjs"
-import { SessionsTable, SessionsTableSkeleton, useSessions } from "@octue/allauth-js/react"
-import { SettingsLayout } from "@/components/layout/SettingsLayout"
+import { AuthenticatedRoute } from '@octue/allauth-js/nextjs'
+import {
+  SessionsTable,
+  SessionsTableSkeleton,
+  useSessions,
+} from '@octue/allauth-js/react'
+import { SettingsLayout } from '@/components/layout/SettingsLayout'
 
 function SessionsPage() {
-  const { currentSession, otherSessions, endSessions, trackActivity, loading } = useSessions()
+  const { currentSession, otherSessions, endSessions, trackActivity, loading } =
+    useSessions()
 
   return (
     <SettingsLayout>

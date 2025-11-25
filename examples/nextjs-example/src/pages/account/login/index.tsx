@@ -123,7 +123,7 @@ function Login() {
         <div className="h-px grow bg-gray-300 dark:bg-white/70" />
       </div>
       <Link
-        className="mt-4 flex items-center justify-center rounded-md border border-theme-600 bg-none px-6 py-1.5 text-sm font-normal leading-6 text-theme-600 shadow-sm hover:border-theme-500 hover:bg-theme-500 hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-theme-500"
+        className="mt-4 flex items-center justify-center rounded-md border border-theme-600 bg-none px-6 py-1.5 text-sm font-normal leading-6 text-theme-600 shadow-sm hover:border-theme-500 hover:bg-theme-500 hover:text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-theme-500"
         href="/account/login/code"
       >
         Email me a login code

@@ -1,57 +1,55 @@
-import { ErrorBox } from "@/components/forms/ErrorBox";
-import { InputGroup } from "@/components/forms/fields/InputGroup";
-import { FormLayout } from "@/components/layout/FormLayout";
-import { zodResolver } from "@hookform/resolvers/zod";
-
-import { Button } from "@octue/allauth-js/react";
-import { requestLoginCode } from "@octue/allauth-js/core";
-import { AnonymousRoute } from "@octue/allauth-js/nextjs";
-import Link from "next/link";
-import { useRouter } from "next/router";
-import { useForm } from "react-hook-form";
-import { FieldError } from "react-hook-form";
-import { toast } from "react-toastify";
-import { z } from "zod";
+import { zodResolver } from '@hookform/resolvers/zod'
+import { requestLoginCode } from '@octue/allauth-js/core'
+import { AnonymousRoute } from '@octue/allauth-js/nextjs'
+import { Button } from '@octue/allauth-js/react'
+import Link from 'next/link'
+import { useRouter } from 'next/router'
+import { type FieldError, useForm } from 'react-hook-form'
+import { toast } from 'react-toastify'
+import { z } from 'zod'
+import { ErrorBox } from '@/components/forms/ErrorBox'
+import { InputGroup } from '@/components/forms/fields/InputGroup'
+import { FormLayout } from '@/components/layout/FormLayout'
 
 const schema = z.object({
-  email: z.string().email("Invalid email address")
-});
+  email: z.string().email('Invalid email address'),
+})
 
 interface FormData {
-  email: string;
+  email: string
 }
 
 function LoginCode() {
-  const router = useRouter();
+  const router = useRouter()
   const {
     register,
     handleSubmit,
     setError,
-    formState: { errors, isSubmitting }
+    formState: { errors, isSubmitting },
   } = useForm<FormData>({
-    resolver: zodResolver(schema)
-  });
+    resolver: zodResolver(schema),
+  })
 
   const onSubmit = async (data: FormData) => {
     try {
-      const response = await requestLoginCode(data.email);
+      const response = await requestLoginCode(data.email)
       if (response?.status === 401) {
-        toast.success("Sent login code to email");
-        router.push("/account/login/code/confirm");
+        toast.success('Sent login code to email')
+        router.push('/account/login/code/confirm')
       } else if (response?.errors) {
-        setError("root", {
-          type: "custom",
-          message: response.errors
-        });
+        setError('root', {
+          type: 'custom',
+          message: response.errors,
+        })
       }
     } catch (error) {
-      console.error(error);
-      setError("root", {
-        type: "custom",
-        message: "An error occurred. Please try again."
-      });
+      console.error(error)
+      setError('root', {
+        type: 'custom',
+        message: 'An error occurred. Please try again.',
+      })
     }
-  };
+  }
 
   return (
     <FormLayout title="Send login code">
@@ -63,7 +61,7 @@ function LoginCode() {
           id="email"
           type="email"
           error={errors?.email?.message}
-          {...register("email")}
+          {...register('email')}
           required
           autoComplete="email"
         >
@@ -76,7 +74,7 @@ function LoginCode() {
         </InputGroup>
 
         <Button type="submit" className="!mt-10 w-full" disabled={isSubmitting}>
-          {isSubmitting ? "Sending code..." : "Send code"}
+          {isSubmitting ? 'Sending code...' : 'Send code'}
         </Button>
       </form>
 
@@ -95,7 +93,7 @@ function LoginCode() {
         Create an account
       </Link>
     </FormLayout>
-  );
+  )
 }
 
 export default function AnonymousLoginCode({ ...pageProps }) {
@@ -103,5 +101,5 @@ export default function AnonymousLoginCode({ ...pageProps }) {
     <AnonymousRoute>
       <LoginCode {...pageProps} />
     </AnonymousRoute>
-  );
+  )
 }

@@ -1,6 +1,10 @@
-import { AuthenticatedRoute } from "@octue/allauth-js/nextjs"
-import { EmailsTable, EmailsTableSkeleton, useEmails } from "@octue/allauth-js/react"
-import { SettingsLayout } from "@/components/layout/SettingsLayout"
+import { AuthenticatedRoute } from '@octue/allauth-js/nextjs'
+import {
+  EmailsTable,
+  EmailsTableSkeleton,
+  useEmails,
+} from '@octue/allauth-js/react'
+import { SettingsLayout } from '@/components/layout/SettingsLayout'
 
 function EmailsPage() {
   const { emails, add, remove, makePrimary, verify, loading } = useEmails()

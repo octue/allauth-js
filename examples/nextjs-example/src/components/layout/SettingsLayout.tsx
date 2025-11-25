@@ -1,8 +1,10 @@
-import React from "react"
-import Link from "next/link"
-import { useRouter } from "next/router"
-import { useAuthStatus, useUser } from "@octue/allauth-js/react"
-import { Header } from "./Header"
+import type React from 'react'
+
+import { useAuthStatus, useUser } from '@octue/allauth-js/react'
+import Link from 'next/link'
+import { useRouter } from 'next/router'
+
+import { Header } from './Header'
 
 export interface SettingsLayoutProps {
   children: React.ReactNode
@@ -14,10 +16,10 @@ export const SettingsLayout: React.FC<SettingsLayoutProps> = ({ children }) => {
   const { user } = useUser()
 
   const navigation = [
-    { name: "Account", href: "/account/settings" },
-    { name: "Emails", href: "/account/settings/emails" },
-    { name: "Password", href: "/account/password/change" },
-    { name: "Sessions", href: "/account/settings/sessions" },
+    { name: 'Account', href: '/account/settings' },
+    { name: 'Emails', href: '/account/settings/emails' },
+    { name: 'Password', href: '/account/password/change' },
+    { name: 'Sessions', href: '/account/settings/sessions' },
   ]
 
   return (
@@ -54,8 +56,8 @@ export const SettingsLayout: React.FC<SettingsLayoutProps> = ({ children }) => {
                       block px-3 py-2 rounded-md text-sm font-medium transition-colors
                       ${
                         isActive
-                          ? "bg-blue-50 dark:bg-blue-900/20 text-blue-700 dark:text-blue-400"
-                          : "text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700"
+                          ? 'bg-blue-50 dark:bg-blue-900/20 text-blue-700 dark:text-blue-400'
+                          : 'text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700'
                       }
                     `}
                   >

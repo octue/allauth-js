@@ -1,64 +1,61 @@
-import { Button } from "@octue/allauth-js/react";
-import { LoadingOverlay } from "@/components/core/LoadingOverlay";
-import { ErrorBox } from "@/components/forms/ErrorBox";
-import { FormLayout } from "@/components/layout/FormLayout";
-import { useSetErrors } from "@octue/allauth-js/react";
-import {
-  getEmailVerification,
-  verifyEmail
-} from "@octue/allauth-js/core";
-import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
-import { FieldError, useForm } from "react-hook-form";
-import { toast } from "react-toastify";
+import { useEffect, useState } from 'react'
+
+import { getEmailVerification, verifyEmail } from '@octue/allauth-js/core'
+import { Button, useSetErrors } from '@octue/allauth-js/react'
+import { useRouter } from 'next/router'
+import { type FieldError, useForm } from 'react-hook-form'
+import { toast } from 'react-toastify'
+import { LoadingOverlay } from '@/components/core/LoadingOverlay'
+import { ErrorBox } from '@/components/forms/ErrorBox'
+import { FormLayout } from '@/components/layout/FormLayout'
 
 export default function VerifyEmail() {
-  const [verifying, setVerifying] = useState(true);
-  const [verification, setVerification] = useState(Object);
+  const [verifying, setVerifying] = useState(true)
+  const [verification, setVerification] = useState(Object)
 
   const {
     handleSubmit,
     setError,
-    formState: { isSubmitting, errors }
-  } = useForm();
+    formState: { isSubmitting, errors },
+  } = useForm()
 
-  const setErrors = useSetErrors<FormData>(setError);
-  const router = useRouter();
-  const { key } = router.query;
+  const setErrors = useSetErrors<FormData>(setError)
+  const router = useRouter()
+  const { key } = router.query
 
   useEffect(() => {
-    setVerifying(true);
+    setVerifying(true)
     getEmailVerification(key)
       .then(setVerification)
       .catch(console.error)
-      .finally(() => setVerifying(false));
-  }, [key, setVerification]);
+      .finally(() => setVerifying(false))
+  }, [key, setVerification])
 
   const onSubmit = () => {
     verifyEmail(key)
       .then((response) => {
         if ([200, 401].includes(response.status)) {
-          toast.success("Verified email");
-          router.push("/");
+          toast.success('Verified email')
+          router.push('/')
         } else {
           toast.error(
-            "Your email verification code is invalid or expired. Please try again"
-          );
-          router.push("/settings/security");
+            'Your email verification code is invalid or expired. Please try again'
+          )
+          router.push('/settings/security')
         }
 
-        return response;
+        return response
       })
       .catch((error) => {
-        console.error(error);
+        console.error(error)
         if (error.fieldErrors) {
-          setErrors(error.fieldErrors);
+          setErrors(error.fieldErrors)
         }
-      });
-  };
+      })
+  }
 
   if (verifying) {
-    return <LoadingOverlay loading={true} />;
+    return <LoadingOverlay loading={true} />
   }
 
   return (
@@ -78,13 +75,13 @@ export default function VerifyEmail() {
         {verification?.data?.email && (
           <div>
             <p>
-              Please confirm that{" "}
+              Please confirm that{' '}
               <b>
-                <a href={"mailto:" + verification?.data?.email}>
+                <a href={'mailto:' + verification?.data?.email}>
                   {verification?.data?.email}
-                </a>{" "}
+                </a>{' '}
               </b>
-              is an email address for user{" "}
+              is an email address for user{' '}
               <b>{verification?.data?.user.username}</b>.
             </p>
             <Button
@@ -98,5 +95,5 @@ export default function VerifyEmail() {
         )}
       </form>
     </FormLayout>
-  );
+  )
 }

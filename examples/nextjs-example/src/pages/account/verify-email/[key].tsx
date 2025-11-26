@@ -29,7 +29,7 @@ export default function VerifyEmail() {
       .then(setVerification)
       .catch(console.error)
       .finally(() => setVerifying(false))
-  }, [key, setVerification])
+  }, [key])
 
   const onSubmit = () => {
     verifyEmail(key)
@@ -77,7 +77,7 @@ export default function VerifyEmail() {
             <p>
               Please confirm that{' '}
               <b>
-                <a href={'mailto:' + verification?.data?.email}>
+                <a href={`mailto:${verification?.data?.email}`}>
                   {verification?.data?.email}
                 </a>{' '}
               </b>

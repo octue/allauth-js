@@ -1,7 +1,7 @@
 import { useContext } from 'react'
 
-import type { ConfigurationResponse } from '../../core/types'
 import { AuthContext } from '../AuthContext'
+import type { ConfigurationResponse } from '../../core/types'
 
 export function useConfig(): ConfigurationResponse | undefined {
   return useContext(AuthContext)?.config

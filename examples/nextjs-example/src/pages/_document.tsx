@@ -21,6 +21,7 @@ export default function Document() {
     <Html lang="en">
       <Head />
       <body className="antialiased">
+        {/* biome-ignore lint/security/noDangerouslySetInnerHtml: Required for theme flash prevention */}
         <script dangerouslySetInnerHTML={{ __html: themeScript }} />
         <Main />
         <NextScript />

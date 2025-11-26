@@ -1,12 +1,14 @@
-import type { Meta, StoryObj } from '@storybook/react-vite'
 import type { FC } from 'react'
-import type { IconProps } from './_type'
+
+import type { Meta, StoryObj } from '@storybook/react-vite'
+
 import { BadgeCheck } from './BadgeCheck'
 import { Dark } from './Dark'
 import { ExclamationTriangle } from './ExclamationTriangle'
 import { Light } from './Light'
 import { Logout } from './Logout'
 import { Return } from './Return'
+import type { IconProps } from './_type'
 
 const meta: Meta = {
   title: 'Components/Icons',
@@ -40,9 +42,14 @@ export const AllIcons: StoryObj = {
     <table className="border-collapse">
       <thead>
         <tr>
-          <th className="p-3 text-left text-sm font-semibold text-gray-700 border-b">Icon</th>
+          <th className="p-3 text-left text-sm font-semibold text-gray-700 border-b">
+            Icon
+          </th>
           {colors.map((color) => (
-            <th key={color.name} className="p-3 text-center text-sm font-semibold text-gray-700 border-b">
+            <th
+              key={color.name}
+              className="p-3 text-center text-sm font-semibold text-gray-700 border-b"
+            >
               {color.name}
             </th>
           ))}
@@ -53,7 +60,10 @@ export const AllIcons: StoryObj = {
           <tr key={name}>
             <td className="p-3 text-sm text-gray-600 border-b">{name}</td>
             {colors.map((color) => (
-              <td key={color.name} className={`p-3 text-center border-b ${color.className}`}>
+              <td
+                key={color.name}
+                className={`p-3 text-center border-b ${color.className}`}
+              >
                 <Icon className="inline-block" />
               </td>
             ))}

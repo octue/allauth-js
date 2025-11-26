@@ -1,9 +1,9 @@
 import { useEffect, useRef, useState } from 'react'
 
 import { determineAuthChangeKind } from '../../core'
-import type { AuthResponse } from '../../core/types'
 import { useAuth } from './useAuth'
 import { useConfig } from './useConfig'
+import type { AuthResponse } from '../../core/types'
 
 export const useAuthChange = () => {
   const auth = useAuth()

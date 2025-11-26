@@ -1,6 +1,6 @@
-import type { FC } from "react";
+import type { FC } from 'react'
 
-import type { IconProps } from "./_type";
+import type { IconProps } from './_type'
 
 export const Return: FC<IconProps> = ({ className, ...rest }) => (
   <svg
@@ -19,4 +19,4 @@ export const Return: FC<IconProps> = ({ className, ...rest }) => (
       d="M10 19l-7-7m0 0l7-7m-7 7h18"
     />
   </svg>
-);
+)

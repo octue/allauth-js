@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react-vite'
+
 import { Button } from './Button'
 
 const meta: Meta<typeof Button> = {
@@ -52,12 +53,24 @@ export const AllPalettes: Story = {
         <Button palette="green">Green</Button>
       </div>
       <div className="flex gap-2">
-        <Button palette="allauth" plain>Allauth Plain</Button>
-        <Button palette="red" plain>Red Plain</Button>
-        <Button palette="error" plain>Error Plain</Button>
-        <Button palette="amber" plain>Amber Plain</Button>
-        <Button palette="gray" plain>Gray Plain</Button>
-        <Button palette="green" plain>Green Plain</Button>
+        <Button palette="allauth" plain>
+          Allauth Plain
+        </Button>
+        <Button palette="red" plain>
+          Red Plain
+        </Button>
+        <Button palette="error" plain>
+          Error Plain
+        </Button>
+        <Button palette="amber" plain>
+          Amber Plain
+        </Button>
+        <Button palette="gray" plain>
+          Gray Plain
+        </Button>
+        <Button palette="green" plain>
+          Green Plain
+        </Button>
       </div>
     </div>
   ),

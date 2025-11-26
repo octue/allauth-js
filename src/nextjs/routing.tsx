@@ -6,10 +6,10 @@ import { useRouter } from 'next/router'
 
 import { AUTH_CHANGE_KIND } from '../core/constants'
 import { flow2path } from '../core/urls'
-import type { URLConfig } from '../core/types'
 import { AuthContext } from '../react/AuthContext'
 import { useAuthChange, useAuthStatus, useConfig } from '../react/hooks'
 import type { AuthResponse, Flow } from '../core'
+import type { URLConfig } from '../core/types'
 
 // Default URLs - can be overridden via AuthContextProvider props or backend config
 const DEFAULT_URLS = Object.freeze({
@@ -33,8 +33,14 @@ function useURLs() {
   // Merge URLs: props override config, config overrides defaults
   return {
     LOGIN_URL: propsUrls?.login || configUrls?.login || DEFAULT_URLS.LOGIN_URL,
-    LOGIN_REDIRECT_URL: propsUrls?.loginRedirect || configUrls?.loginRedirect || DEFAULT_URLS.LOGIN_REDIRECT_URL,
-    LOGOUT_REDIRECT_URL: propsUrls?.logoutRedirect || configUrls?.logoutRedirect || DEFAULT_URLS.LOGOUT_REDIRECT_URL,
+    LOGIN_REDIRECT_URL:
+      propsUrls?.loginRedirect ||
+      configUrls?.loginRedirect ||
+      DEFAULT_URLS.LOGIN_REDIRECT_URL,
+    LOGOUT_REDIRECT_URL:
+      propsUrls?.logoutRedirect ||
+      configUrls?.logoutRedirect ||
+      DEFAULT_URLS.LOGOUT_REDIRECT_URL,
   }
 }
 

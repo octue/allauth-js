@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react-vite'
+
 import { SessionsTableSkeleton } from './SessionsTableSkeleton'
 
 const meta: Meta<typeof SessionsTableSkeleton> = {

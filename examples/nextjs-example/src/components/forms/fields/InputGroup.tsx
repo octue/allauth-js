@@ -29,7 +29,10 @@ export const InputGroup = forwardRef<HTMLInputElement, InputGroupProps>(
     return (
       <div className="space-y-1">
         <div className="flex justify-between items-start">
-          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+          <label
+            htmlFor={props.id}
+            className="block text-sm font-medium text-gray-700 dark:text-gray-300"
+          >
             {label}
           </label>
           {children}
@@ -39,7 +42,7 @@ export const InputGroup = forwardRef<HTMLInputElement, InputGroupProps>(
             {help || helperText}
           </p>
         )}
-        <input ref={ref} className={inputClasses} {...props} />
+        <input ref={ref} id={props.id} className={inputClasses} {...props} />
         {error && (
           <p className="text-sm text-red-600 dark:text-red-400">{error}</p>
         )}

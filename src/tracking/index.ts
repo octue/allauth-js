@@ -137,7 +137,7 @@ export type SignupTrackProps =
   | SignupFailedUnknown
 
 // ==== Formatter ====
-const trunc = (s: string, n = 240) => (s.length > n ? s.slice(0, n) + '…' : s)
+const trunc = (s: string, n = 240) => (s.length > n ? `${s.slice(0, n)}…` : s)
 const uniq = <T>(xs: T[]) => Array.from(new Set(xs))
 
 function hasVerifyEmailFlow(res: SignupAuthNeeded): boolean {
@@ -158,7 +158,7 @@ function flowProviders(res: SignupAuthNeeded): string[] {
 
 function verifyPending(res: SignupAuthNeeded): boolean {
   return res.data.flows.some(
-    (f) => f.id === 'verify_email' && (f as any).is_pending
+    (f) => f.id === 'verify_email' && 'is_pending' in f && f.is_pending
   )
 }
 

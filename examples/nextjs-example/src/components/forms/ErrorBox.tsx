@@ -30,6 +30,7 @@ export const ErrorBox: React.FC<ErrorBoxProps> = ({
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 20 20"
             fill="currentColor"
+            aria-hidden="true"
           >
             <path
               fillRule="evenodd"
@@ -45,8 +46,8 @@ export const ErrorBox: React.FC<ErrorBoxProps> = ({
             </p>
           ) : (
             <ul className="list-disc list-inside text-sm text-red-800 dark:text-red-200 space-y-1">
-              {errorMessages.map((err, index) => (
-                <li key={index}>{err}</li>
+              {errorMessages.map((err) => (
+                <li key={err}>{err}</li>
               ))}
             </ul>
           )}

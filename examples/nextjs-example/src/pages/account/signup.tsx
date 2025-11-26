@@ -33,7 +33,7 @@ const schema = z.object({
     ),
 })
 
-const trackSignUp = (response: any) => {
+const trackSignUp = (response: { errors?: unknown }) => {
   if (!response?.errors) {
     track('Signup Success')
   }

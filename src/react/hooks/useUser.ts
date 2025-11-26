@@ -1,8 +1,8 @@
 import { useContext } from 'react'
 
 import { authInfo } from '../../core'
-import type { User } from '../../core/types'
 import { AuthContext } from '../AuthContext'
+import type { User } from '../../core/types'
 
 export interface UseUserResult {
   user: User | null

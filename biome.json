@@ -9,7 +9,10 @@
       "!**/.vscode",
       "!**/.yarn",
       "!**/node_modules",
-      "!**/public"
+      "!**/public",
+      "!**/.venv",
+      "!local_examples",
+      "!dist"
     ]
   },
   "formatter": {
@@ -77,7 +80,7 @@
         "useKeyWithClickEvents": "off"
       },
       "correctness": { "useUniqueElementIds": "off" },
-      "suspicious": { "noTsIgnore": "off" }
+      "suspicious": { "noTsIgnore": "off", "noUnknownAtRules": "off" }
     }
   },
   "javascript": {

@@ -279,7 +279,9 @@ export function authInfo(
   const meta = auth.meta as { is_authenticated?: boolean } | undefined
   const isAuthenticated =
     auth.status === 200 || (auth.status === 401 && meta?.is_authenticated)
-  const requiresReauthentication = Boolean(isAuthenticated && auth.status === 401)
+  const requiresReauthentication = Boolean(
+    isAuthenticated && auth.status === 401
+  )
   const pendingFlow = auth.data?.flows?.find((flow) => flow.is_pending)
   return {
     isAuthenticated: Boolean(isAuthenticated),

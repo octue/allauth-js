@@ -59,6 +59,12 @@
       ],
       "react": [
         "dist/react/index.d.ts"
+      ],
+      "nextjs": [
+        "dist/nextjs/index.d.ts"
+      ],
+      "tracking": [
+        "dist/tracking/index.d.ts"
       ]
     }
   },

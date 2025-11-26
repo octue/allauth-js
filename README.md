@@ -23,6 +23,26 @@ pnpm add @octue/allauth-js
 
 **Peer dependencies:** React 18+ (for react hooks and components), Next.js 15+ (for route guards)
 
+## TypeScript Configuration
+
+This library supports all modern TypeScript `moduleResolution` settings:
+
+| Setting | Support |
+|---------|---------|
+| `bundler` | Recommended for Vite, Next.js, and modern bundlers |
+| `node16` / `nodenext` | Full support |
+| `node` (legacy) | Supported via `typesVersions` fallback |
+
+If you're starting a new project, we recommend using `moduleResolution: "bundler"` in your `tsconfig.json`:
+
+```json
+{
+  "compilerOptions": {
+    "moduleResolution": "bundler"
+  }
+}
+```
+
 ## Quick Start
 
 ### 1. Wrap your app with AuthContextProvider

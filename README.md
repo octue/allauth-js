@@ -1,6 +1,6 @@
 # allauth-js
 
-Common JS funcitons, React hooks and components for [django-allauth](https://docs.allauth.org/) headless mode.
+Common JS functions, React hooks and components for [django-allauth](https://docs.allauth.org/) headless mode.
 
 Build authentication flows in JS/React/Next.js applications backed by django-allauth's battle-tested authentication system.
 

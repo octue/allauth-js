@@ -301,14 +301,14 @@ cd examples/backend
 uv run python manage.py runserver
 
 # 2. Start the Next.js frontend (new terminal)
-cd examples/nextjs-example
+cd examples/nextjs
 pnpm install
 pnpm dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000). Test credentials: username `admin` / password `admin123`
 
-See [`examples/nextjs-example/README.md`](examples/nextjs-example/README.md) for detailed example documentation.
+See [`examples/nextjs/README.md`](examples/nextjs/README.md) for detailed example documentation.
 
 ### Storybook
 

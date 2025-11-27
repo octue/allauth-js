@@ -280,7 +280,7 @@ The `allauth-js` library includes a Storybook for developing and previewing comp
 To run Storybook:
 
 ```bash
-# From the project root (not examples/nextjs-example)
+# From the project root (not examples/nextjs)
 cd ../..
 pnpm install
 pnpm storybook

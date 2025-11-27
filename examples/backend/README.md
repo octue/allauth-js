@@ -162,7 +162,7 @@ To test this backend with the example frontend:
 
 2. In a separate terminal, start the frontend:
    ```bash
-   cd ../nextjs-example
+   cd ../nextjs
    npm install
    npm run dev
    ```

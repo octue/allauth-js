@@ -1,0 +1,47 @@
+exclude: '.vscode/|.git/|.next/|dist|((?:[^/]*/)*)(.svg)|((?:[^/]*/)*)(.xml)'
+default_stages: [pre-commit]
+fail_fast: true
+default_language_version:
+  python: python3 # force all unspecified python hooks to run python3
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v6.0.0
+    hooks:
+      - id: check-added-large-files
+        args: ['--maxkb=10240']
+      - id: check-json
+      - id: check-yaml
+      - id: end-of-file-fixer
+      - id: no-commit-to-branch
+      - id: trailing-whitespace
+
+  - repo: https://github.com/windpioneers/pre-commit-hooks
+    rev: 0.0.5
+    hooks:
+      - id: check-branch-name
+        args:
+          # Main branch...
+          - '^main$'
+          # Or a descriptive kebab-case branch name
+          #   which, if it includes an issue number, will
+          #   auto-link pull requests to that issue on github, eg:
+          #   my-branch-to-fix-issue-#6
+          - '^([a-z][a-z0-9#/]*)(-[a-z0-9#]+)*$'
+
+  # This hook wil automatically use the biome version from package.json
+  - repo: local
+    hooks:
+      - id: biome
+        name: biome check
+        entry: npx @biomejs/biome check --write --files-ignore-unknown=true --no-errors-on-unmatched
+        language: system
+        types: [text]
+        files: '.(jsx|tsx|js|ts|jsonc)$'
+
+  - repo: https://github.com/octue/conventional-commits
+    rev: 0.9.0
+    hooks:
+      - id: check-commit-message-is-conventional
+        stages: [commit-msg]
+        args:
+          - --maximum-body-line-length=2000

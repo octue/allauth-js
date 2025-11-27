@@ -31,6 +31,7 @@ INSTALLED_APPS = [
     "django.contrib.sites",  # Required for allauth
     # Third-party apps
     "corsheaders",  # Required for frontend communication
+    'django_extensions', # Includes shell_plus
     "allauth",  # Required
     "allauth.account",  # Required
     "allauth.usersessions",  # Required for session tracking

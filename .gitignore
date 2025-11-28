@@ -16,3 +16,5 @@ local_examples
 storybook-static
 CLAUDE.md
 examples/backend/db.sqlite3
+__pycache__/
+examples/backend/.venv/

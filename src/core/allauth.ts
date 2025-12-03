@@ -90,7 +90,9 @@ export async function logout(): Promise<AuthResponse> {
   return await request('DELETE', URLs.SESSION)
 }
 
-export async function signUp(data: unknown): Promise<AuthResponse> {
+export async function signUp<T extends Record<string, unknown>>(
+  data: T
+): Promise<AuthResponse> {
   return await request('POST', URLs.SIGNUP, data)
 }
 

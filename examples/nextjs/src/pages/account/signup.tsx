@@ -54,7 +54,7 @@ function SignUp() {
   const setErrors = useSetErrors<FormData>(setError)
 
   const onSubmit = (data: FormData) => {
-    signUp(data).then(setErrors).then(trackSignUp)
+    signUp<FormData>(data).then(setErrors).then(trackSignUp)
   }
 
   return (

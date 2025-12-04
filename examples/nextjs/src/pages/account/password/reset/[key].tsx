@@ -7,6 +7,7 @@ import { useRouter } from 'next/router'
 import { type FieldError, useForm } from 'react-hook-form'
 import { toast } from 'react-toastify'
 import { z } from 'zod'
+import { LoadingOverlay } from '@/components/core/LoadingOverlay'
 import { ErrorBox } from '@/components/forms/ErrorBox'
 import { InputGroup } from '@/components/forms/fields/InputGroup'
 import { FormLayout } from '@/components/layout/FormLayout'
@@ -106,7 +107,7 @@ function PasswordResetKey() {
  */
 export default function AnonymousPasswordResetKey({ ...pageProps }) {
   return (
-    <AnonymousRoute>
+    <AnonymousRoute loading={<LoadingOverlay />}>
       <PasswordResetKey {...pageProps} />
     </AnonymousRoute>
   )

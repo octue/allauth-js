@@ -71,12 +71,12 @@ export function getNext(router: NextRouter, defaultNext: string): string {
   // return (Array.isArray(rawNext) ? rawNext[0] : rawNext) || defaultNext
 }
 
-/* Protects a route such that if you arrive on it, you are diverted
- * to the login flow, then back to this route post-login
+/* Protects a route such that if you arrive on it whilst unauthenticated,
+ * you are diverted to the login flow, then back to this route post-login
  */
 export function AuthenticatedRoute({
   children,
-  loading = null, //<LoadingOverlay loading />
+  loading = null,
 }: {
   children: ReactNode
   loading?: ReactNode
@@ -94,22 +94,29 @@ export function AuthenticatedRoute({
   router.push(`${urls.LOGIN_URL}?${next}`)
 }
 
-/* Protects a route such that if you arrive on it, you are diverted
- * to the logout flow, then back to this route post-logout
+/* Protects a route such that if you arrive on it whilst authenticated,
+ * you are redirected to the post-login page. This prevents authenticated
+ * users from accessing anonymous-only pages like signup/login.
  */
 export function AnonymousRoute({
   children,
+  loading = null,
 }: {
   children: ReactNode
+  loading?: ReactNode
 }): ReactNode {
   const status = useAuthStatus()
   const router = useRouter()
   const urls = useURLs()
+  if (!status.initialised) {
+    return loading
+  }
   if (!status.isAuthenticated) {
     return children
   }
   const next = getNext(router, urls.LOGIN_REDIRECT_URL)
   router.push(next)
+  return null
 }
 
 export function AuthChangeRedirector({

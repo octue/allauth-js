@@ -5,6 +5,7 @@ import { Button, useSetErrors } from '@octue/allauth-js/react'
 import Link from 'next/link'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
+import { LoadingOverlay } from '@/components/core/LoadingOverlay'
 import { ErrorBox } from '@/components/forms/ErrorBox'
 import { InputGroup } from '@/components/forms/fields/InputGroup'
 import { FormLayout } from '@/components/layout/FormLayout'
@@ -149,7 +150,7 @@ function Login() {
  */
 export default function AnonymousLogin({ ...pageProps }) {
   return (
-    <AnonymousRoute>
+    <AnonymousRoute loading={<LoadingOverlay />}>
       <Login {...pageProps} />
     </AnonymousRoute>
   )

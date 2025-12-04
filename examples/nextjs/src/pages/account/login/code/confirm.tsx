@@ -7,6 +7,7 @@ import { Button, useAuthStatus, useSetErrors } from '@octue/allauth-js/react'
 import { useRouter } from 'next/router'
 import { type FieldError, useForm } from 'react-hook-form'
 import { z } from 'zod'
+import { LoadingOverlay } from '@/components/core/LoadingOverlay'
 import { ErrorBox } from '@/components/forms/ErrorBox'
 import { InputGroup } from '@/components/forms/fields/InputGroup'
 import { FormLayout } from '@/components/layout/FormLayout'
@@ -81,7 +82,7 @@ function LoginCodeConfirm() {
 
 export default function AnonymousLoginCodeConfirm({ ...pageProps }) {
   return (
-    <AnonymousRoute>
+    <AnonymousRoute loading={<LoadingOverlay />}>
       <LoginCodeConfirm {...pageProps} />
     </AnonymousRoute>
   )

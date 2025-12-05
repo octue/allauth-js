@@ -18,7 +18,7 @@ type FormData = z.infer<typeof schema>
 export interface AddEmailModalProps {
   open: boolean
   onClose: () => void
-  onAdd: (email: string) => Promise<unknown> | void
+  onAdd: (email: string) => Promise<unknown> | undefined
   disabled?: boolean
 }
 
@@ -50,7 +50,9 @@ export const AddEmailModal: FC<AddEmailModalProps> = ({
       const result = await onAdd(data.email)
       // Check if result has errors (API error response)
       if (result && typeof result === 'object' && 'errors' in result) {
-        setErrors(result as { errors?: Array<{ param?: string; message: string }> })
+        setErrors(
+          result as { errors?: Array<{ param?: string; message: string }> }
+        )
         return
       }
       // Success - close modal and reset form

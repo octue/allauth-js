@@ -47,7 +47,7 @@ export const URLs = Object.freeze({
 
 export const flow2path: Record<string, string> = {
   [FLOWS.LOGIN]: '/account/login',
-  [FLOWS.LOGIN_BY_CODE]: '/account/login/confirm',
+  [FLOWS.LOGIN_BY_CODE]: '/account/login/code/confirm',
   [FLOWS.SIGNUP]: '/account/signup',
   [FLOWS.VERIFY_EMAIL]: '/account/verify-email',
   [FLOWS.PROVIDER_SIGNUP]: '/account/provider/signup',

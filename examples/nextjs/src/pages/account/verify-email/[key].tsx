@@ -36,7 +36,7 @@ export default function VerifyEmail() {
       .then((response) => {
         if ([200, 401].includes(response.status)) {
           toast.success('Verified email')
-          router.push('/')
+          router.push('/account/login')
         } else {
           toast.error(
             'Your email verification code is invalid or expired. Please try again'
@@ -55,7 +55,7 @@ export default function VerifyEmail() {
   }
 
   if (verifying) {
-    return <LoadingOverlay loading={true} />
+    return <LoadingOverlay />
   }
 
   return (
@@ -64,7 +64,7 @@ export default function VerifyEmail() {
         {!verification?.data?.email && (
           <div>
             <p>Your email verification code is invalid or expired</p>
-            <Button className="mt-3" palette="theme" href="/">
+            <Button className="mt-3" palette="allauth" href="/">
               Back to homepage
             </Button>
           </div>

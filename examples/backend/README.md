@@ -127,7 +127,7 @@ The backend is configured to accept requests from:
 - `http://localhost:3000` (default Next.js port)
 - `http://localhost:3001`
 
-To add more origins, edit `config/settings.py`:
+To add more origins, edit `app/settings.py`:
 
 ```python
 CORS_ALLOWED_ORIGINS = [
@@ -226,12 +226,12 @@ uv run python manage.py collectstatic
 
 ### CORS errors
 If you get CORS errors in the browser console, check that:
-1. Your frontend URL is in `CORS_ALLOWED_ORIGINS` in `config/settings.py`
+1. Your frontend URL is in `CORS_ALLOWED_ORIGINS` in `app/settings.py`
 2. The backend server is running
 3. You're using the correct API URL in your frontend
 
 ### Email links not working
-Email links (password reset, email verification) will use the URLs configured in `HEADLESS_FRONTEND_URLS` in `config/settings.py`. Make sure these match your frontend routes.
+Email links (password reset, email verification) will use the URLs configured in `HEADLESS_FRONTEND_URLS` in `app/settings.py`. Make sure these match your frontend routes.
 
 ### Site domain issues
 If redirects aren't working properly, check the Site domain:

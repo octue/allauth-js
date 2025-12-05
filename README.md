@@ -11,7 +11,7 @@ Build authentication flows in JS/React/Next.js applications backed by django-all
 - Route guards for protected and anonymous pages
 - Full support for email/password, passwordless, and social auth
 - Pre-built UI components with Tailwind CSS styling
-- Fully customisable - start with pre-built then copy the components out to cutsomise or build your own.
+- Fully customisable - start with pre-built then copy the components out to customise or build your own.
 
 ## Installation
 
@@ -45,11 +45,15 @@ If you're starting a new project, we recommend using `moduleResolution: "bundler
 
 ## Quick Start
 
-### 1. Wrap your app with AuthContextProvider
+### 1. Wrap your app with AuthContextProviderand AuthChangeRedirector
 
 ```tsx
 // pages/_app.tsx or app/layout.tsx
 import { AuthContextProvider } from '@octue/allauth-js/react'
+// If not using nextjs, you'll need to supply an equivalent to
+// AuthChangeRedirector that works with your routing solution...
+// Check the code, it's not too hard.
+import { AuthChangeRedirector } from '@octue/allauth-js/nextjs'
 
 export default function App({ Component, pageProps }) {
   return (
@@ -60,7 +64,9 @@ export default function App({ Component, pageProps }) {
         logoutRedirect: '/',
       }}
     >
-      <Component {...pageProps} />
+      <AuthChangeRedirector>
+        <Component {...pageProps} />
+      </AuthChangeRedirector>
     </AuthContextProvider>
   )
 }
@@ -287,6 +293,12 @@ export default function Settings() {
 | `AnonymousRoute` | Redirect to dashboard if already authenticated |
 
 ## Development
+
+### Receiving emails in development
+
+Note that the development backend is not set up to send you emails via a third party provider.
+Instead, it'll simply print the plain text emails to the console. **For testing the email verification
+
 
 ### Running the Example App
 

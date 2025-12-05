@@ -52,7 +52,7 @@ MIDDLEWARE = [
     "allauth.usersessions.middleware.UserSessionsMiddleware",  # Required
 ]
 
-ROOT_URLCONF = "config.urls"
+ROOT_URLCONF = "app.urls"
 
 TEMPLATES = [
     {
@@ -70,7 +70,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = "config.wsgi.application"
+WSGI_APPLICATION = "app.wsgi.application"
 
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
@@ -136,7 +136,7 @@ FRONTEND_URL = os.environ.get("FRONTEND_URL", "http://localhost:3000")
 # Account settings
 ACCOUNT_LOGIN_METHODS = {"email"}  # Use email for authentication
 ACCOUNT_SIGNUP_FIELDS = ["email*", "password1*"]  # Email and password (no confirmation)
-ACCOUNT_EMAIL_VERIFICATION = "optional"  # Use "mandatory" in production
+ACCOUNT_EMAIL_VERIFICATION = "mandatory"  # Use "mandatory", "optional" or "none"
 ACCOUNT_LOGIN_BY_CODE_ENABLED = True  # Enable passwordless login
 ACCOUNT_LOGOUT_ON_PASSWORD_CHANGE = False
 ACCOUNT_PRESERVE_USERNAME_CASING = False

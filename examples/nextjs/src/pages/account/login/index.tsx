@@ -8,6 +8,7 @@ import { z } from 'zod'
 import { LoadingOverlay } from '@/components/core/LoadingOverlay'
 import { ErrorBox } from '@/components/forms/ErrorBox'
 import { InputGroup } from '@/components/forms/fields/InputGroup'
+import { OrLine } from '@/components/forms/OrLine'
 import { FormLayout } from '@/components/layout/FormLayout'
 
 const MIN_PASSWORD_LENGTH = 8
@@ -26,12 +27,8 @@ const schema = z.object({
     ),
 })
 
-// Define the form data type
-interface FormData {
-  username: string
-  email: string
-  password: string
-}
+// Define the form data type based on the schema
+type FormData = z.infer<typeof schema>
 
 function Login() {
   // You can use the following to discover what providers are supported...
@@ -53,13 +50,6 @@ function Login() {
 
   const setErrors = useSetErrors<FormData>(setError)
 
-  // Reset the form values if new data is received (e.g. from API refresh)
-  // Note: not relevant for login forms, typically for things like user settings
-  // useEffect(() => {
-  //   reset(defaultValues)
-  // }, [reset, defaultValues])
-
-  // Submit data to login handler
   const onSubmit = (data: FormData) => {
     login(data).then(setErrors).catch(console.error)
   }
@@ -115,16 +105,9 @@ function Login() {
           {isSubmitting ? 'Logging in...' : 'Log in'}
         </Button>
       </form>
-
-      <div className="my-6 flex w-full items-center px-8">
-        <div className="h-px grow bg-gray-300 dark:bg-white/70" />
-        <span className="px-6 text-sm font-light text-gray-400 dark:text-white/70">
-          Or
-        </span>
-        <div className="h-px grow bg-gray-300 dark:bg-white/70" />
-      </div>
+      <OrLine />
       <Link
-        className="mt-4 flex items-center justify-center rounded-md border border-theme-600 bg-none px-6 py-1.5 text-sm font-normal leading-6 text-theme-600 shadow-sm hover:border-theme-500 hover:bg-theme-500 hover:text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-theme-500"
+        className="mt-4 flex items-center justify-center rounded-md border border-allauth-600 bg-none px-6 py-1.5 text-sm font-normal leading-6 text-allauth-600 shadow-sm hover:border-theme-500 hover:bg-theme-500 hover:text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-allauth-500"
         href="/account/login/code"
       >
         Email me a login code

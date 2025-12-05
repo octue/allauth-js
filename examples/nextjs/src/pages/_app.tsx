@@ -1,6 +1,7 @@
 import '@/styles/globals.css'
 import 'react-toastify/dist/ReactToastify.css'
 
+import { AuthChangeRedirector } from '@octue/allauth-js/nextjs'
 import { AuthContextProvider } from '@octue/allauth-js/react'
 // If you're not using Tailwind CSS, uncomment the following line to import
 // the pre-compiled styles for allauth-js components:
@@ -17,7 +18,9 @@ export default function App({ Component, pageProps }: AppProps) {
         login: '/account/login',
       }}
     >
-      <Component {...pageProps} />
+      <AuthChangeRedirector>
+        <Component {...pageProps} />
+      </AuthChangeRedirector>
       <ToastContainer
         position="top-right"
         autoClose={5000}

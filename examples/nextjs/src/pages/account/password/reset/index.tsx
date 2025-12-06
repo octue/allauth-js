@@ -1,7 +1,7 @@
 import { zodResolver } from '@hookform/resolvers/zod'
-import { requestPasswordReset } from '@octue/allauth-js/core'
+import { assertNever, requestPasswordReset } from '@octue/allauth-js/core'
 import { AnonymousRoute } from '@octue/allauth-js/nextjs'
-import { Button, useSetErrors } from '@octue/allauth-js/react'
+import { Button } from '@octue/allauth-js/react'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { type FieldError, useForm } from 'react-hook-form'
@@ -30,13 +30,46 @@ function PasswordReset() {
     resolver: zodResolver(schema),
   })
 
-  const setErrors = useSetErrors<FormData>(setError)
   const router = useRouter()
 
-  const onSubmit = (data: FormData) => {
-    requestPasswordReset(data.email).then(setErrors).catch(console.error)
-    toast.success('Sent password reset link')
-    router.push('/account/login')
+  const onSubmit = async (data: FormData) => {
+    try {
+      const result = await requestPasswordReset(data.email)
+
+      switch (result.status) {
+        case 200:
+          toast.success('Sent password reset link')
+          router.push('/account/login')
+          break
+        case 401:
+          // Code-based flow - pending flow handled by auth change event
+          toast.success('Password reset initiated')
+          break
+        case 400:
+          result.errors.forEach((err) => {
+            if (err.param === 'email') {
+              setError('email', {
+                type: 'custom',
+                message: err.message,
+              })
+            } else {
+              setError('root.nonFieldError', {
+                type: 'custom',
+                message: err.message,
+              })
+            }
+          })
+          break
+        default:
+          assertNever(result)
+      }
+    } catch (error) {
+      console.error(error)
+      setError('root.nonFieldError', {
+        type: 'custom',
+        message: 'An error occurred. Please try again.',
+      })
+    }
   }
 
   return (

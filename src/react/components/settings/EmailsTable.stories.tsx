@@ -35,7 +35,6 @@ type Story = StoryObj<typeof EmailsTable>
 export const Default: Story = {
   args: {
     emails: mockEmails,
-    add: (email) => console.log('Adding email:', email),
     remove: (email) => console.log('Removing email:', email),
     makePrimary: (email) => console.log('Making primary:', email),
     verify: (email) => console.log('Verifying email:', email),
@@ -46,7 +45,6 @@ export const Default: Story = {
 export const SingleEmail: Story = {
   args: {
     emails: [mockEmails[0]],
-    add: (email) => console.log('Adding email:', email),
     remove: (email) => console.log('Removing email:', email),
     makePrimary: (email) => console.log('Making primary:', email),
     verify: (email) => console.log('Verifying email:', email),
@@ -68,7 +66,6 @@ export const AllUnverified: Story = {
         verified: false,
       },
     ],
-    add: (email) => console.log('Adding email:', email),
     remove: (email) => console.log('Removing email:', email),
     makePrimary: (email) => console.log('Making primary:', email),
     verify: (email) => console.log('Verifying email:', email),
@@ -103,7 +100,6 @@ export const ActionInProgress: Story = {
         removing: true,
       },
     ],
-    add: (email) => console.log('Adding email:', email),
     remove: (email) => console.log('Removing email:', email),
     makePrimary: (email) => console.log('Making primary:', email),
     verify: (email) => console.log('Verifying email:', email),

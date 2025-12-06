@@ -28,7 +28,7 @@ export const useSessions = () => {
     setLoading(true)
     endSessions(sessions.map((s) => s.id))
       .then((resp) => {
-        if (resp.data) {
+        if (resp.status === 200) {
           setSessions(resp.data)
         }
       })

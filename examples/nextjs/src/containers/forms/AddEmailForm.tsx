@@ -1,7 +1,7 @@
 import type { FC } from 'react'
 
 import { zodResolver } from '@hookform/resolvers/zod'
-import { Button, useSetErrors } from '@octue/allauth-js/react'
+import { Button } from '@octue/allauth-js/react'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 import { InputGroup } from '@/components/forms/fields/InputGroup'
@@ -14,21 +14,18 @@ type FormData = z.infer<typeof schema>
 
 export interface AddEmailFormProps {
   onClose: () => void
-  add: (email: string) => Promise<unknown>
+  add: (email: string) => Promise<void>
 }
 
 export const AddEmailForm: FC<AddEmailFormProps> = ({ onClose, add }) => {
   const {
     register,
     handleSubmit,
-    setError,
     reset,
     formState: { isSubmitting, errors },
   } = useForm<FormData>({
     resolver: zodResolver(schema),
   })
-
-  const setErrors = useSetErrors<FormData>(setError)
 
   const handleCancel = () => {
     reset()
@@ -36,22 +33,10 @@ export const AddEmailForm: FC<AddEmailFormProps> = ({ onClose, add }) => {
   }
 
   const onSubmit = async (data: FormData) => {
-    try {
-      const result = await add(data.email)
-      // Check if result has errors (API error response)
-      if (result && typeof result === 'object' && 'errors' in result) {
-        setErrors(
-          result as { errors?: Array<{ param?: string; message: string }> }
-        )
-        return
-      }
-      // Success - close modal and reset form
-      reset()
-      onClose()
-    } catch (e) {
-      console.error(e)
-      onClose()
-    }
+    // The parent component (emails.tsx) handles the result with exhaustive switch
+    // and shows appropriate toasts. This form just calls add() and resets.
+    await add(data.email)
+    reset()
   }
 
   return (

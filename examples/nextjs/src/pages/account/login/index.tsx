@@ -1,7 +1,7 @@
 import { zodResolver } from '@hookform/resolvers/zod'
-import { login } from '@octue/allauth-js/core'
+import { assertNever, login } from '@octue/allauth-js/core'
 import { AnonymousRoute } from '@octue/allauth-js/nextjs'
-import { Button, useSetErrors } from '@octue/allauth-js/react'
+import { Button } from '@octue/allauth-js/react'
 import Link from 'next/link'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
@@ -48,10 +48,50 @@ function Login() {
     resolver: zodResolver(schema),
   })
 
-  const setErrors = useSetErrors<FormData>(setError)
+  const onSubmit = async (data: FormData) => {
+    try {
+      const result = await login(data)
 
-  const onSubmit = (data: FormData) => {
-    login(data).then(setErrors).catch(console.error)
+      switch (result.status) {
+        case 200:
+          // Success - auth change event will handle redirect
+          break
+        case 401:
+          // Pending flow (e.g., email verification, 2FA) - auth change event will handle redirect
+          break
+        case 400:
+          // Validation error
+          result.errors.forEach((err) => {
+            if (err.param && err.param in data) {
+              setError(err.param as keyof FormData, {
+                type: 'custom',
+                message: err.message,
+              })
+            } else {
+              setError('root.nonFieldError', {
+                type: 'custom',
+                message: err.message,
+              })
+            }
+          })
+          break
+        case 409:
+          // Already logged in
+          setError('root.nonFieldError', {
+            type: 'custom',
+            message: 'You are already logged in.',
+          })
+          break
+        default:
+          assertNever(result)
+      }
+    } catch (error) {
+      console.error(error)
+      setError('root.nonFieldError', {
+        type: 'custom',
+        message: 'An error occurred. Please try again.',
+      })
+    }
   }
 
   return (

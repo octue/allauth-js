@@ -1,7 +1,11 @@
 import { useEffect, useState } from 'react'
 
-import { getEmailVerification, verifyEmail } from '@octue/allauth-js/core'
-import { Button, useSetErrors } from '@octue/allauth-js/react'
+import {
+  assertNever,
+  getEmailVerification,
+  verifyEmail,
+} from '@octue/allauth-js/core'
+import { Button } from '@octue/allauth-js/react'
 import { useRouter } from 'next/router'
 import { type FieldError, useForm } from 'react-hook-form'
 import { toast } from 'react-toastify'
@@ -19,39 +23,62 @@ export default function VerifyEmail() {
     formState: { isSubmitting, errors },
   } = useForm()
 
-  const setErrors = useSetErrors<FormData>(setError)
   const router = useRouter()
-  const { key } = router.query
-
+  const key = Array.isArray(router.query.key)
+    ? router.query.key[0]
+    : router.query.key
+  console.log('key', key, router.query.key)
   useEffect(() => {
+    if (!key) return
     setVerifying(true)
     getEmailVerification(key)
-      .then(setVerification)
+      .then((result) => {
+        if (result.status === 200) {
+          setVerification(result)
+        }
+      })
       .catch(console.error)
       .finally(() => setVerifying(false))
   }, [key])
 
-  const onSubmit = () => {
-    verifyEmail(key)
-      .then((response) => {
-        if ([200, 401].includes(response.status)) {
+  const onSubmit = async () => {
+    if (!key) return
+
+    try {
+      const result = await verifyEmail(key)
+
+      switch (result.status) {
+        case 200:
           toast.success('Verified email')
           router.push('/account/login')
-        } else {
+          break
+        case 401:
+          // Email verified but not logged in
+          toast.success('Verified email')
+          router.push('/account/login')
+          break
+        case 400:
+          setError('root.nonFieldError', {
+            type: 'custom',
+            message: result.errors[0]?.message ?? 'Invalid verification code',
+          })
+          break
+        case 409:
           toast.error(
             'Your email verification code is invalid or expired. Please try again'
           )
           router.push('/settings/security')
-        }
-
-        return response
+          break
+        default:
+          assertNever(result)
+      }
+    } catch (error) {
+      console.error(error)
+      setError('root.nonFieldError', {
+        type: 'custom',
+        message: 'An error occurred. Please try again.',
       })
-      .catch((error) => {
-        console.error(error)
-        if (error.fieldErrors) {
-          setErrors(error.fieldErrors)
-        }
-      })
+    }
   }
 
   if (verifying) {

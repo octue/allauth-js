@@ -64,7 +64,7 @@ export default function VerifyEmail() {
         {!verification?.data?.email && (
           <div>
             <p>Your email verification code is invalid or expired</p>
-            <Button className="mt-3" palette="allauth" href="/">
+            <Button size="lg" className="mt-3" palette="allauth" href="/">
               Back to homepage
             </Button>
           </div>
@@ -85,6 +85,7 @@ export default function VerifyEmail() {
               <b>{verification?.data?.user.username}</b>.
             </p>
             <Button
+              size="lg"
               type="submit"
               className="mt-3 w-full"
               disabled={isSubmitting}

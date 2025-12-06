@@ -1,14 +1,20 @@
-import { useState } from 'react'
+import type { ReactNode } from 'react'
 
 import { Button } from '../common/Button'
+import { ArrowPath } from '../icons/ArrowPath'
+import { ArrowUpOnSquare } from '../icons/ArrowUpOnSquare'
 import { BadgeCheck } from '../icons/BadgeCheck'
+import { Envelope } from '../icons/Envelope'
 import { ExclamationTriangle } from '../icons/ExclamationTriangle'
-import { AddEmailModal } from './AddEmailModal'
+import { Trash } from '../icons/Trash'
 
 interface Email {
   email: string
   primary: boolean
   verified: boolean
+  verifying?: boolean
+  makingPrimary?: boolean
+  removing?: boolean
 }
 
 export interface EmailsTableProps {
@@ -16,9 +22,9 @@ export interface EmailsTableProps {
   disabled: boolean
   emails: Email[]
   makePrimary: (email: string) => void
-  add: (email: string) => void
   remove: (email: string) => void
   verify: (email: string) => void
+  actions?: ReactNode | null
 }
 
 export const EmailsTable = ({
@@ -27,11 +33,9 @@ export const EmailsTable = ({
   makePrimary,
   verify,
   remove,
-  add,
   disabled,
+  actions = null,
 }: EmailsTableProps) => {
-  const [open, setOpen] = useState(false)
-
   return (
     <div className={`px-4 sm:px-6 lg:px-8 ${className}`}>
       <div className="sm:flex sm:items-center">
@@ -43,14 +47,7 @@ export const EmailsTable = ({
             Email addresses linked to your account. Add or remove addresses, or
             request verification from this table.
           </p>
-          <Button
-            disabled={disabled}
-            onClick={() => setOpen(true)}
-            type="button"
-            className="mt-4"
-          >
-            Add email
-          </Button>
+          {actions}
         </div>
       </div>
       <div className="mt-8 flow-root ">
@@ -70,12 +67,6 @@ export const EmailsTable = ({
                     className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-0"
                   >
                     Verification status
-                  </th>
-                  <th
-                    scope="col"
-                    className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
-                  >
-                    Primary address?
                   </th>
                   <th scope="col" className="relative py-3.5 pl-3 pr-4 sm:pr-0">
                     <span className="sr-only">Actions</span>
@@ -109,32 +100,56 @@ export const EmailsTable = ({
                       )}
                     </td>
                     <td className="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-0">
-                      {!email.verified && (
-                        <button
+                      <div className="flex flex-row justify-end">
+                        {!email.verified && (
+                          <Button
+                            size="sm"
+                            plain
+                            type="button"
+                            disabled={disabled || email.verifying}
+                            onClick={() => verify(email.email)}
+                          >
+                            Verify
+                            {email.verifying ? (
+                              <ArrowPath className="h-5 w-5" spin />
+                            ) : (
+                              <Envelope className="h-5 w-5" />
+                            )}
+                          </Button>
+                        )}
+                        {!email.primary && (
+                          <Button
+                            size="sm"
+                            plain
+                            type="button"
+                            disabled={
+                              disabled || !email.verified || email.makingPrimary
+                            }
+                            onClick={() => makePrimary(email.email)}
+                          >
+                            Make primary
+                            {email.makingPrimary ? (
+                              <ArrowPath className="h-5 w-5" spin />
+                            ) : (
+                              <ArrowUpOnSquare className="h-5 w-5" />
+                            )}
+                          </Button>
+                        )}
+                        <Button
+                          size="sm"
                           type="button"
-                          className="text-allauth-600 hover:text-allauth-500 disabled:text-gray-400 "
-                          disabled={disabled}
-                          onClick={() => verify(email.email)}
+                          plain
+                          disabled={disabled || email.primary || email.removing}
+                          onClick={() => remove(email.email)}
                         >
-                          Verify
-                        </button>
-                      )}
-                      <button
-                        type="button"
-                        className="ml-6 text-allauth-600 hover:text-allauth-500 disabled:text-gray-400 "
-                        disabled={disabled || email.primary || !email.verified}
-                        onClick={() => makePrimary(email.email)}
-                      >
-                        Mark as primary
-                      </button>
-                      <button
-                        type="button"
-                        className="ml-6 text-red-600 hover:text-red-500 disabled:text-gray-400 "
-                        disabled={disabled || email.primary}
-                        onClick={() => remove(email.email)}
-                      >
-                        Remove
-                      </button>
+                          Remove
+                          {email.removing ? (
+                            <ArrowPath className="h-5 w-5" spin />
+                          ) : (
+                            <Trash className="h-5 w-5" />
+                          )}
+                        </Button>
+                      </div>
                     </td>
                   </tr>
                 ))}
@@ -143,12 +158,6 @@ export const EmailsTable = ({
           </div>
         </div>
       </div>
-      <AddEmailModal
-        open={open}
-        onClose={() => setOpen(false)}
-        onAdd={add}
-        disabled={disabled}
-      />
     </div>
   )
 }

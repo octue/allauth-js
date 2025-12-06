@@ -43,17 +43,6 @@ export const Default: Story = {
   },
 }
 
-export const Loading: Story = {
-  args: {
-    emails: mockEmails,
-    add: (email) => console.log('Adding email:', email),
-    remove: (email) => console.log('Removing email:', email),
-    makePrimary: (email) => console.log('Making primary:', email),
-    verify: (email) => console.log('Verifying email:', email),
-    disabled: true,
-  },
-}
-
 export const SingleEmail: Story = {
   args: {
     emails: [mockEmails[0]],
@@ -77,6 +66,41 @@ export const AllUnverified: Story = {
         email: 'unverified2@example.com',
         primary: false,
         verified: false,
+      },
+    ],
+    add: (email) => console.log('Adding email:', email),
+    remove: (email) => console.log('Removing email:', email),
+    makePrimary: (email) => console.log('Making primary:', email),
+    verify: (email) => console.log('Verifying email:', email),
+    disabled: false,
+  },
+}
+
+export const ActionInProgress: Story = {
+  args: {
+    emails: [
+      {
+        email: 'user@example.com',
+        primary: true,
+        verified: true,
+      },
+      {
+        email: 'verifying@example.com',
+        primary: false,
+        verified: false,
+        verifying: true,
+      },
+      {
+        email: 'making-primary@example.com',
+        primary: false,
+        verified: true,
+        makingPrimary: true,
+      },
+      {
+        email: 'removing@example.com',
+        primary: false,
+        verified: true,
+        removing: true,
       },
     ],
     add: (email) => console.log('Adding email:', email),

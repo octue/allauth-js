@@ -10,6 +10,7 @@ import { z } from 'zod'
 import { LoadingOverlay } from '@/components/core/LoadingOverlay'
 import { ErrorBox } from '@/components/forms/ErrorBox'
 import { InputGroup } from '@/components/forms/fields/InputGroup'
+import { OrLine } from '@/components/forms/OrLine'
 import { FormLayout } from '@/components/layout/FormLayout'
 
 const codeErrorMessage = 'Code must be 6 characters long'
@@ -69,11 +70,26 @@ function LoginCodeConfirm() {
           error={errors?.code?.message}
           {...register('code')}
           required
+          help="Enter the login code from your email."
         />
-        <br />
-        The code expires shortly, so please enter it soon.
-        <Button type="submit" className="mt-10! w-full" disabled={isSubmitting}>
+        <Button
+          size="lg"
+          type="submit"
+          className="mt-6! w-full"
+          disabled={isSubmitting}
+        >
           {isSubmitting ? 'Verifying...' : 'Log in'}
+        </Button>
+        <OrLine />
+        <Button
+          size="lg"
+          palette="gray"
+          outlined
+          type="submit"
+          className="wt-full"
+          href="/account/login"
+        >
+          Go back to login
         </Button>
       </form>
     </FormLayout>

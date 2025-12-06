@@ -51,7 +51,12 @@ async function request<T = unknown>(
     },
   }
 
-  if (method === 'POST' || method === 'PUT' || method === 'DELETE') {
+  if (
+    method === 'POST' ||
+    method === 'PUT' ||
+    method === 'PATCH' ||
+    method === 'DELETE'
+  ) {
     const csrfToken = getCSRFToken()
     if (csrfToken) {
       options.headers['X-CSRFToken'] = csrfToken

@@ -70,12 +70,11 @@ function SignUp() {
         />
 
         <InputGroup
-          help="Choose a public username that people can use to find your profile. Tip: Use your github account handle if you have one!"
+          help="Choose a public username"
           label="User Handle"
           error={errors?.username?.message}
           id="username"
           {...register('username')}
-          // autoComplete="username"
           required
         >
           <Link
@@ -85,7 +84,6 @@ function SignUp() {
             Already registered? Log in!
           </Link>
         </InputGroup>
-
         <InputGroup
           help="You'll use your email address to sign in later"
           label="Email address"
@@ -96,7 +94,6 @@ function SignUp() {
           autoComplete="email"
           required
         />
-
         <InputGroup
           help="Set a strong password to access your account."
           label="Password"
@@ -107,9 +104,9 @@ function SignUp() {
           autoComplete="new-password"
           required
         />
-
         <Button
           type="submit"
+          size="lg"
           className="mt-2 w-full"
           disabled={isSubmitting && !isDirty}
         >

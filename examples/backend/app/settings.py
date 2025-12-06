@@ -138,8 +138,13 @@ ACCOUNT_LOGIN_METHODS = {"email"}  # Use email for authentication
 ACCOUNT_SIGNUP_FIELDS = ["email*", "password1*"]  # Email and password (no confirmation)
 ACCOUNT_EMAIL_VERIFICATION = "mandatory"  # Use "mandatory", "optional" or "none"
 ACCOUNT_LOGIN_BY_CODE_ENABLED = True  # Enable passwordless login
+ACCOUNT_EMAIL_VERIFICATION_SUPPORTS_RESEND = True  # Allow user to request resend verify email
 ACCOUNT_LOGOUT_ON_PASSWORD_CHANGE = False
 ACCOUNT_PRESERVE_USERNAME_CASING = False
+ACCOUNT_RATE_LIMITS = {
+    "confirm_email": "5/1h/key",  # Allow 5 resends / hour
+    # "confirm_email": False  # To test rate limited verify email resend requests
+}
 
 # Redirect URLs
 ACCOUNT_EMAIL_CONFIRMATION_ANONYMOUS_REDIRECT_URL = FRONTEND_URL

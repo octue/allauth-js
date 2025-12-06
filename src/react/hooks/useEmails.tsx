@@ -44,7 +44,7 @@ export const useEmails = () => {
         // TODO Accept an error handler
         console.error(e)
       })
-      .then(() => {
+      .finally(() => {
         setLoading(false)
       })
   }
@@ -92,7 +92,7 @@ export const useEmails = () => {
         // TODO Accept an error handler
         console.error(e)
       })
-      .then(() => {
+      .finally(() => {
         setLoading(false)
       })
   }

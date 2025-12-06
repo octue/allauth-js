@@ -10,10 +10,11 @@ import { z } from 'zod'
 import { LoadingOverlay } from '@/components/core/LoadingOverlay'
 import { ErrorBox } from '@/components/forms/ErrorBox'
 import { InputGroup } from '@/components/forms/fields/InputGroup'
+import { OrLine } from '@/components/forms/OrLine'
 import { FormLayout } from '@/components/layout/FormLayout'
 
 const schema = z.object({
-  email: z.string().email('Invalid email address'),
+  email: z.email('Invalid email address'),
 })
 
 interface FormData {
@@ -74,25 +75,28 @@ function LoginCode() {
           </Link>
         </InputGroup>
 
-        <Button type="submit" className="!mt-10 w-full" disabled={isSubmitting}>
+        <Button
+          size="lg"
+          type="submit"
+          className="!mt-10 w-full"
+          disabled={isSubmitting}
+        >
           {isSubmitting ? 'Sending code...' : 'Send code'}
         </Button>
       </form>
 
-      <div className="my-6 flex w-full items-center px-8">
-        <div className="h-[1px] flex-grow bg-gray-300 dark:bg-white/70" />
-        <span className="px-6 text-sm font-light text-gray-400 dark:text-white/70">
-          Or
-        </span>
-        <div className="h-[1px] flex-grow bg-gray-300 dark:bg-white/70" />
-      </div>
+      <OrLine />
 
-      <Link
-        className="mt-4 flex items-center justify-center rounded-md border border-theme-600 bg-none px-6 py-1.5 text-sm font-normal leading-6 text-theme-600 shadow-sm hover:border-theme-500 hover:bg-theme-500 hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-theme-500"
-        href="/account/signup"
+      <Button
+        size="lg"
+        palette="gray"
+        outlined
+        type="submit"
+        className="wt-full"
+        href="/account/login"
       >
-        Create an account
-      </Link>
+        Login with password
+      </Button>
     </FormLayout>
   )
 }

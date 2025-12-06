@@ -106,12 +106,9 @@ function Login() {
         </Button>
       </form>
       <OrLine />
-      <Link
-        className="mt-4 flex items-center justify-center rounded-md border border-allauth-600 bg-none px-6 py-1.5 text-sm font-normal leading-6 text-allauth-600 shadow-sm hover:border-theme-500 hover:bg-theme-500 hover:text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-allauth-500"
-        href="/account/login/code"
-      >
+      <Button outlined size="lg" palette="gray" href="/account/login/code">
         Email me a login code
-      </Link>
+      </Button>
       {/* {hasProviders ? (
         <>
           <h2>Or use a third-party</h2>

@@ -21,10 +21,10 @@ const meta: Meta<typeof Button> = {
     disabled: {
       control: 'boolean',
     },
-    loading: {
+    plain: {
       control: 'boolean',
     },
-    plain: {
+    outlined: {
       control: 'boolean',
     },
   },
@@ -33,18 +33,13 @@ const meta: Meta<typeof Button> = {
 export default meta
 type Story = StoryObj<typeof Button>
 
-export const Default: Story = {
-  args: {
-    children: 'Button',
-    palette: 'allauth',
-    size: 'md',
-  },
-}
-
-export const AllPalettes: Story = {
-  render: () => (
-    <div className="flex flex-col gap-4">
-      <div className="flex gap-2">
+const AllVariantsContent = () => (
+  <div className="flex flex-col gap-6 p-6">
+    <div className="flex flex-col gap-2">
+      <h3 className="text-sm font-semibold text-gray-700 dark:text-gray-300">
+        Palettes
+      </h3>
+      <div className="flex flex-wrap gap-2">
         <Button palette="allauth">Allauth</Button>
         <Button palette="red">Red</Button>
         <Button palette="error">Error</Button>
@@ -52,58 +47,95 @@ export const AllPalettes: Story = {
         <Button palette="gray">Gray</Button>
         <Button palette="green">Green</Button>
       </div>
-      <div className="flex gap-2">
+    </div>
+
+    <div className="flex flex-col gap-2">
+      <h3 className="text-sm font-semibold text-gray-700 dark:text-gray-300">
+        Plain Variants
+      </h3>
+      <div className="flex flex-wrap gap-2">
         <Button palette="allauth" plain>
-          Allauth Plain
+          Allauth
         </Button>
         <Button palette="red" plain>
-          Red Plain
+          Red
         </Button>
         <Button palette="error" plain>
-          Error Plain
+          Error
         </Button>
         <Button palette="amber" plain>
-          Amber Plain
+          Amber
         </Button>
         <Button palette="gray" plain>
-          Gray Plain
+          Gray
         </Button>
         <Button palette="green" plain>
-          Green Plain
+          Green
         </Button>
       </div>
     </div>
-  ),
+
+    <div className="flex flex-col gap-2">
+      <h3 className="text-sm font-semibold text-gray-700 dark:text-gray-300">
+        Outlined Variants
+      </h3>
+      <div className="flex flex-wrap gap-2">
+        <Button palette="allauth" outlined>
+          Allauth
+        </Button>
+        <Button palette="red" outlined>
+          Red
+        </Button>
+        <Button palette="error" outlined>
+          Error
+        </Button>
+        <Button palette="amber" outlined>
+          Amber
+        </Button>
+        <Button palette="gray" outlined>
+          Gray
+        </Button>
+        <Button palette="green" outlined>
+          Green
+        </Button>
+      </div>
+    </div>
+
+    <div className="flex flex-col gap-2">
+      <h3 className="text-sm font-semibold text-gray-700 dark:text-gray-300">
+        Sizes
+      </h3>
+      <div className="flex flex-wrap items-center gap-2">
+        <Button size="xs">Extra Small</Button>
+        <Button size="sm">Small</Button>
+        <Button size="md">Medium</Button>
+        <Button size="lg">Large</Button>
+      </div>
+    </div>
+
+    <div className="flex flex-col gap-2">
+      <h3 className="text-sm font-semibold text-gray-700 dark:text-gray-300">
+        States
+      </h3>
+      <div className="flex flex-wrap gap-2">
+        <Button>Normal</Button>
+        <Button disabled>Disabled</Button>
+      </div>
+    </div>
+  </div>
+)
+
+export const AllVariants: Story = {
+  render: () => <AllVariantsContent />,
 }
 
-export const AllSizes: Story = {
+export const AllVariantsDark: Story = {
+  parameters: {
+    layout: 'fullscreen',
+  },
   render: () => (
-    <div className="flex items-center gap-2">
-      <Button size="xs">Extra Small</Button>
-      <Button size="sm">Small</Button>
-      <Button size="md">Medium</Button>
-      <Button size="lg">Large</Button>
+    <div className="dark bg-gray-900 min-h-screen w-full flex items-center justify-center">
+      <AllVariantsContent />
     </div>
   ),
-}
-
-export const Disabled: Story = {
-  args: {
-    children: 'Disabled Button',
-    disabled: true,
-  },
-}
-
-export const Loading: Story = {
-  args: {
-    children: 'Loading Button',
-    loading: true,
-  },
-}
-
-export const PlainStyle: Story = {
-  args: {
-    children: 'Plain Button',
-    plain: true,
-  },
 }

@@ -2,12 +2,16 @@ import type { FC } from 'react'
 
 import type { Meta, StoryObj } from '@storybook/react-vite'
 
+import { ArrowPath } from './ArrowPath'
+import { ArrowUpOnSquare } from './ArrowUpOnSquare'
 import { BadgeCheck } from './BadgeCheck'
 import { Dark } from './Dark'
+import { Envelope } from './Envelope'
 import { ExclamationTriangle } from './ExclamationTriangle'
 import { Light } from './Light'
 import { Logout } from './Logout'
 import { Return } from './Return'
+import { Trash } from './Trash'
 import type { IconProps } from './_type'
 
 const meta: Meta = {
@@ -21,12 +25,16 @@ const meta: Meta = {
 export default meta
 
 const icons: { name: string; component: FC<IconProps> }[] = [
+  { name: 'ArrowPath', component: ArrowPath },
+  { name: 'ArrowUpOnSquare', component: ArrowUpOnSquare },
   { name: 'BadgeCheck', component: BadgeCheck },
   { name: 'Dark', component: Dark },
+  { name: 'Envelope', component: Envelope },
   { name: 'ExclamationTriangle', component: ExclamationTriangle },
   { name: 'Light', component: Light },
   { name: 'Logout', component: Logout },
   { name: 'Return', component: Return },
+  { name: 'Trash', component: Trash },
 ]
 
 const colors = [

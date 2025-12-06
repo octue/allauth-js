@@ -41,7 +41,7 @@ function LoginCode() {
       } else if (response?.errors) {
         setError('root', {
           type: 'custom',
-          message: response.errors,
+          message: response.errors[0]?.message ?? 'An error occurred',
         })
       }
     } catch (error) {
@@ -57,7 +57,6 @@ function LoginCode() {
     <FormLayout title="Send login code">
       <form className="space-y-4" onSubmit={handleSubmit(onSubmit)}>
         <ErrorBox error={errors?.root?.message as FieldError | undefined} />
-
         <InputGroup
           label="Email"
           id="email"
@@ -74,7 +73,6 @@ function LoginCode() {
             Use password instead
           </Link>
         </InputGroup>
-
         <Button
           size="lg"
           type="submit"
@@ -84,9 +82,7 @@ function LoginCode() {
           {isSubmitting ? 'Sending code...' : 'Send code'}
         </Button>
       </form>
-
       <OrLine />
-
       <Button
         size="lg"
         palette="gray"

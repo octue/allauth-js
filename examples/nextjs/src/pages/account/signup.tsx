@@ -1,7 +1,7 @@
 import { zodResolver } from '@hookform/resolvers/zod'
-import { signUp } from '@octue/allauth-js/core'
+import { assertNever, signUp } from '@octue/allauth-js/core'
 import { AnonymousRoute } from '@octue/allauth-js/nextjs'
-import { Button, useSetErrors } from '@octue/allauth-js/react'
+import { Button } from '@octue/allauth-js/react'
 import { track } from '@vercel/analytics'
 import Link from 'next/link'
 import { useForm } from 'react-hook-form'
@@ -20,6 +20,7 @@ interface FormData {
   username: string
   email: string
   password: string
+  [k: string]: unknown
 }
 
 // Define the validation schema
@@ -34,8 +35,8 @@ const schema = z.object({
     ),
 })
 
-const trackSignUp = (response: { errors?: unknown }) => {
-  if (!response?.errors) {
+const trackSignUp = (ok: boolean) => {
+  if (ok) {
     track('Signup Success')
   }
 }
@@ -52,10 +53,60 @@ function SignUp() {
   } = useForm<FormData>({
     resolver: zodResolver(schema),
   })
-  const setErrors = useSetErrors<FormData>(setError)
+  const onSubmit = async (data: FormData) => {
+    try {
+      const result = await signUp(data)
 
-  const onSubmit = (data: FormData) => {
-    signUp<FormData>(data).then(setErrors).then(trackSignUp)
+      switch (result.status) {
+        case 200:
+          // Success - auth change event will handle redirect
+          trackSignUp(true)
+          break
+        case 401:
+          // Pending flow (e.g., email verification) - auth change event will handle
+          trackSignUp(true)
+          break
+        case 400:
+          result.errors.forEach((err) => {
+            const knownFields = ['username', 'email', 'password'] as const
+            if (
+              err.param &&
+              knownFields.includes(err.param as (typeof knownFields)[number])
+            ) {
+              setError(err.param as 'username' | 'email' | 'password', {
+                type: 'custom',
+                message: err.message,
+              })
+            } else {
+              setError('root.nonFieldError', {
+                type: 'custom',
+                message: err.message,
+              })
+            }
+          })
+          break
+        case 403:
+          setError('root.nonFieldError', {
+            type: 'custom',
+            message: 'Signup is currently closed.',
+          })
+          break
+        case 409:
+          setError('root.nonFieldError', {
+            type: 'custom',
+            message: 'You are already logged in.',
+          })
+          break
+        default:
+          assertNever(result)
+      }
+    } catch (error) {
+      console.error(error)
+      setError('root.nonFieldError', {
+        type: 'custom',
+        message: 'An error occurred. Please try again.',
+      })
+    }
   }
 
   return (

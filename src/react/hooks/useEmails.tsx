@@ -7,7 +7,13 @@ import {
   markEmailAsPrimary,
   requestEmailVerification,
 } from '../../core'
-import type { EmailAddress } from '../../core'
+import type {
+  AddEmailResult,
+  DeleteEmailResult,
+  EmailAddress,
+  EmailVerificationResult,
+  MarkPrimaryResult,
+} from '../../core'
 
 export const useEmails = () => {
   const [emails, setEmails] = useState<EmailAddress[]>([])
@@ -20,10 +26,8 @@ export const useEmails = () => {
         if (resp.status === 200 && resp.data) {
           setEmails(resp.data)
         }
-        // TODO Accept an error handler
       })
       .catch((e) => {
-        // TODO Accept an error handler
         console.error(e)
       })
       .finally(() => {
@@ -31,70 +35,53 @@ export const useEmails = () => {
       })
   }, [])
 
-  const add = (email: string) => {
+  const add = async (email: string): Promise<AddEmailResult> => {
     setLoading(true)
-    addEmail(email)
-      .then((resp) => {
-        if (resp.status === 200 && resp.data) {
-          setEmails(resp.data)
-        }
-        // TODO Accept an error handler
-      })
-      .catch((e) => {
-        // TODO Accept an error handler
-        console.error(e)
-      })
-      .finally(() => {
-        setLoading(false)
-      })
+    try {
+      const result = await addEmail(email)
+      if (result.ok) {
+        setEmails(result.data)
+      }
+      return result
+    } finally {
+      setLoading(false)
+    }
   }
 
-  //   TODO disambiguate the state for each of these handlers
-  const verify = (email: string) => {
+  const verify = async (email: string): Promise<EmailVerificationResult> => {
     setLoading(true)
-    requestEmailVerification(email)
-      .catch((e) => {
-        // TODO Accept an error handler
-        console.error(e)
-      })
-      .finally(() => {
-        setLoading(false)
-      })
+    try {
+      const result = await requestEmailVerification(email)
+      return result
+    } finally {
+      setLoading(false)
+    }
   }
 
-  const remove = (email: string) => {
+  const remove = async (email: string): Promise<DeleteEmailResult> => {
     setLoading(true)
-    deleteEmail(email)
-      .then((resp) => {
-        if (resp.status === 200 && resp.data) {
-          setEmails(resp.data)
-        }
-      })
-      .catch((e) => {
-        // TODO Accept an error handler
-        console.error(e)
-      })
-      .finally(() => {
-        setLoading(false)
-      })
+    try {
+      const result = await deleteEmail(email)
+      if (result.ok) {
+        setEmails(result.data)
+      }
+      return result
+    } finally {
+      setLoading(false)
+    }
   }
 
-  const makePrimary = (email: string) => {
+  const makePrimary = async (email: string): Promise<MarkPrimaryResult> => {
     setLoading(true)
-    markEmailAsPrimary(email)
-      .then((resp) => {
-        if (resp.status === 200 && resp.data) {
-          setEmails(resp.data)
-        }
-        // TODO Accept an error handler
-      })
-      .catch((e) => {
-        // TODO Accept an error handler
-        console.error(e)
-      })
-      .finally(() => {
-        setLoading(false)
-      })
+    try {
+      const result = await markEmailAsPrimary(email)
+      if (result.ok) {
+        setEmails(result.data)
+      }
+      return result
+    } finally {
+      setLoading(false)
+    }
   }
 
   return {

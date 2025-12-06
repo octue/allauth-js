@@ -1,9 +1,9 @@
 import { useEffect } from 'react'
 
 import { zodResolver } from '@hookform/resolvers/zod'
-import { confirmLoginCode, FLOWS } from '@octue/allauth-js/core'
+import { assertNever, confirmLoginCode, FLOWS } from '@octue/allauth-js/core'
 import { AnonymousRoute } from '@octue/allauth-js/nextjs'
-import { Button, useAuthStatus, useSetErrors } from '@octue/allauth-js/react'
+import { Button, useAuthStatus } from '@octue/allauth-js/react'
 import { useRouter } from 'next/router'
 import { type FieldError, useForm } from 'react-hook-form'
 import { z } from 'zod'
@@ -36,14 +36,33 @@ function LoginCodeConfirm() {
     resolver: zodResolver(schema),
   })
 
-  const setErrors = useSetErrors<FormData>(setError)
-
   const onSubmit = async (data: FormData) => {
     try {
-      const response = await confirmLoginCode(data.code)
+      const result = await confirmLoginCode(data.code)
 
-      if (![200, 401].includes(response.status)) {
-        setErrors(response)
+      switch (result.status) {
+        case 200:
+          // Success - auth change event will handle redirect
+          break
+        case 401:
+          // Pending flow (e.g., 2FA required) - auth change event will handle redirect
+          break
+        case 400:
+          // Validation error
+          setError('code', {
+            type: 'custom',
+            message: result.errors[0]?.message ?? 'Invalid code',
+          })
+          break
+        case 409:
+          // No login by code flow pending
+          setError('root', {
+            type: 'custom',
+            message: 'Login code flow not active. Please request a new code.',
+          })
+          break
+        default:
+          assertNever(result)
       }
     } catch (error) {
       console.error(error)

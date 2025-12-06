@@ -1,7 +1,7 @@
 import { zodResolver } from '@hookform/resolvers/zod'
-import { resetPassword } from '@octue/allauth-js/core'
+import { assertNever, resetPassword } from '@octue/allauth-js/core'
 import { AnonymousRoute } from '@octue/allauth-js/nextjs'
-import { Button, useSetErrors } from '@octue/allauth-js/react'
+import { Button } from '@octue/allauth-js/react'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { type FieldError, useForm } from 'react-hook-form'
@@ -37,30 +37,56 @@ function PasswordResetKey() {
     resolver: zodResolver(schema),
   })
 
-  const setErrors = useSetErrors<FormData>(setError)
   const router = useRouter()
-  const { key } = router.query
+  const key = Array.isArray(router.query.key)
+    ? router.query.key[0]
+    : router.query.key
 
-  const onSubmit = (data: FormData) => {
-    resetPassword(data.password, key)
-      .then((response) => {
-        console.log(response)
-        if ([200, 401].includes(response.status)) {
+  const onSubmit = async (data: FormData) => {
+    if (!key) return
+
+    try {
+      const result = await resetPassword(data.password, key)
+
+      switch (result.status) {
+        case 200:
           toast.success('Reset password successfully')
           router.push('/account/login')
-        } else {
+          break
+        case 401:
+          // Password reset but not logged in - redirect to login
+          toast.success('Reset password successfully')
+          router.push('/account/login')
+          break
+        case 400:
+          result.errors.forEach((err) => {
+            if (err.param === 'password') {
+              setError('password', {
+                type: 'custom',
+                message: err.message,
+              })
+            } else {
+              setError('root.nonFieldError', {
+                type: 'custom',
+                message: err.message,
+              })
+            }
+          })
+          break
+        case 409:
           toast.error('Your reset code is invalid or expired. Please try again')
           router.push('/account/password/reset')
-        }
-
-        return response
+          break
+        default:
+          assertNever(result)
+      }
+    } catch (error) {
+      console.error(error)
+      setError('root.nonFieldError', {
+        type: 'custom',
+        message: 'An error occurred. Please try again.',
       })
-      .catch((error) => {
-        console.error(error)
-        if (error.fieldErrors) {
-          setErrors(error.fieldErrors)
-        }
-      })
+    }
   }
 
   return (
@@ -85,7 +111,12 @@ function PasswordResetKey() {
             Back to login
           </Link>
         </InputGroup>
-        <Button type="submit" className="!mt-10 w-full" disabled={isSubmitting}>
+        <Button
+          size="lg"
+          type="submit"
+          className="!mt-10 w-full"
+          disabled={isSubmitting}
+        >
           Reset
         </Button>
       </form>

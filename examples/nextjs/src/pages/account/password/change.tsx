@@ -1,7 +1,7 @@
 import { zodResolver } from '@hookform/resolvers/zod'
-import { changePassword } from '@octue/allauth-js/core'
+import { assertNever, changePassword } from '@octue/allauth-js/core'
 import { AuthenticatedRoute } from '@octue/allauth-js/nextjs'
-import { Button, useSetErrors, useUser } from '@octue/allauth-js/react'
+import { Button, useUser } from '@octue/allauth-js/react'
 import { useRouter } from 'next/router'
 import { type FieldError, useForm } from 'react-hook-form'
 import { z } from 'zod'
@@ -42,19 +42,46 @@ function PasswordChange() {
     resolver: zodResolver(schema),
   })
 
-  const setErrors = useSetErrors<FormData>(setError)
-
   // Submit data to login handler
-  const onSubmit = (data: FormData) => {
-    changePassword(data)
-      .then((response) => {
-        if (!response?.errors) {
+  const onSubmit = async (data: FormData) => {
+    try {
+      const result = await changePassword(data)
+
+      switch (result.status) {
+        case 200:
           router.push('/')
-        } else {
-          setErrors(response)
-        }
+          break
+        case 400:
+          result.errors.forEach((err) => {
+            if (err.param && err.param in data) {
+              setError(err.param as keyof FormData, {
+                type: 'custom',
+                message: err.message,
+              })
+            } else {
+              setError('root.nonFieldError', {
+                type: 'custom',
+                message: err.message,
+              })
+            }
+          })
+          break
+        case 401:
+          setError('root.nonFieldError', {
+            type: 'custom',
+            message: 'Please log in again to change your password.',
+          })
+          break
+        default:
+          assertNever(result)
+      }
+    } catch (error) {
+      console.error(error)
+      setError('root.nonFieldError', {
+        type: 'custom',
+        message: 'An error occurred. Please try again.',
       })
-      .catch(console.error)
+    }
   }
 
   return (

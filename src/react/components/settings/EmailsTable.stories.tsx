@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react-vite'
 
+import { Button } from '../common/Button'
 import { EmailsTable } from './EmailsTable'
 
 const mockEmails = [
@@ -39,6 +40,9 @@ export const Default: Story = {
     makePrimary: (email) => console.log('Making primary:', email),
     verify: (email) => console.log('Verifying email:', email),
     disabled: false,
+    // Add email is done as a composed component so you can use
+    // your own form handler and modal
+    actions: <Button onClick={() => {}}>Add email</Button>,
   },
 }
 

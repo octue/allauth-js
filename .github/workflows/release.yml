@@ -29,11 +29,11 @@ jobs:
         with:
           run_install: false
 
-      # - name: Configure npm auth
-      #   env:
-      #     NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-      #   run: |
-      #     echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" > ~/.npmrc
+      - name: Configure npm
+        # Adding an npmrc file seems to be needed even though we have the
+        # registry configured and are using WIF!
+        run: |
+          echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" > ~/.npmrc
 
       - name: Setup Node.js (with pnpm cache)
         uses: actions/setup-node@v4

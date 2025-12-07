@@ -29,6 +29,12 @@ jobs:
         with:
           run_install: false
 
+      # - name: Configure npm auth
+      #   env:
+      #     NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+      #   run: |
+      #     echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" > ~/.npmrc
+
       - name: Setup Node.js (with pnpm cache)
         uses: actions/setup-node@v4
         with:
@@ -40,10 +46,8 @@ jobs:
       - name: Install dependencies (lockfile strict)
         run: pnpm install --frozen-lockfile
 
-      # TODO Consider using semantic-release-pnpm to replace the
-      # publish CI (not sure whether WIF to npm registry will work or not)
-      # https://github.com/autoclouddev/semantic-release-pnpm
       - name: Semantic release
         run: pnpm dlx semantic-release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}

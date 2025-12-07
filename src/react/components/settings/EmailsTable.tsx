@@ -47,8 +47,8 @@ export const EmailsTable = ({
             Email addresses linked to your account. Add or remove addresses, or
             request verification from this table.
           </p>
-          {actions}
         </div>
+        <div className="mt-4 sm:ml-16 sm:mt-0 sm:flex-none">{actions}</div>
       </div>
       <div className="mt-8 flow-root ">
         <div className="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">

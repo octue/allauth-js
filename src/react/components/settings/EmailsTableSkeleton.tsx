@@ -10,6 +10,8 @@ export const EmailsTableSkeleton: React.FC = () => {
             Email addresses linked to your account. Add or remove addresses, or
             request verification from this table.
           </p>
+        </div>
+        <div className="mt-4 sm:ml-16 sm:mt-0 sm:flex-none">
           <div className="mt-4 h-9 w-28 animate-pulse rounded-md bg-gray-200" />
         </div>
       </div>

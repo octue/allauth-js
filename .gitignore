@@ -8,6 +8,9 @@ yarn-error.log*
 .vscode/
 *.tsbuildinfo
 .pnp.*
+.env
+.envrc
+
 
 # Local implementations (private repos) for additional testing and dev work
 local_examples

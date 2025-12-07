@@ -29,9 +29,9 @@ jobs:
         with:
           run_install: false
 
-      # - name: Configure npm
-      #   # Adding an npmrc file seems to be needed even though we have the
-      #   # registry configured and are using WIF!
+      # - name: Configure npm auth
+      #   env:
+      #     NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
       #   run: |
       #     echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" > ~/.npmrc
 
@@ -50,3 +50,4 @@ jobs:
         run: pnpm dlx semantic-release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}

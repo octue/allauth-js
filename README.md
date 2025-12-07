@@ -299,6 +299,14 @@ export default function Settings() {
 Note that the development backend is not set up to send you emails via a third party provider.
 Instead, it'll simply print the plain text emails to the console. **For testing the email verification
 
+### The annoying .npmrc file
+
+The semantic release process requires a .npmrc file to be present with the template for the NPM_TOKEN but this creates errors if installing locally.
+
+Using `direnv` or `dotenv` with a `.env` file can fix it so you always have an NPM_TOKEN environment variable:
+```
+echo "NPM_TOKEN=whatever-we-onlly-publish-from-ci" > .env
+```
 
 ### Running the Example App
 

@@ -109,7 +109,7 @@ export const Button: FC<ButtonProps> = ({
     [onMouseDown, rippleEffect]
   )
   const Component = href ? 'a' : 'button'
-  const componentProps = href ? { href, title, ...rest } : rest
+  const componentProps = href ? { href, title, ...rest } : { type, ...rest }
 
   return (
     //@ts-ignore

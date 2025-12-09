@@ -123,6 +123,7 @@ export function AuthChangeRedirector({
   children,
 }: {
   children: ReactNode
+  loading?: ReactNode
 }): ReactNode {
   const [auth, event] = useAuthChange()
   const router = useRouter()

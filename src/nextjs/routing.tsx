@@ -121,6 +121,7 @@ export function AnonymousRoute({
 
 export function AuthChangeRedirector({
   children,
+  loading = null,
 }: {
   children: ReactNode
   loading?: ReactNode
@@ -136,11 +137,11 @@ export function AuthChangeRedirector({
     }
     case AUTH_CHANGE_KIND.LOGGED_IN: {
       router.push(getNext(router, urls.LOGIN_REDIRECT_URL))
-      return null
+      return loading
     }
     case AUTH_CHANGE_KIND.REAUTHENTICATED: {
       router.push(getNext(router, urls.LOGIN_REDIRECT_URL))
-      return null
+      return loading
     }
     case AUTH_CHANGE_KIND.REAUTHENTICATION_REQUIRED: {
       const next = `next=${encodeURIComponent(router.asPath)}`
